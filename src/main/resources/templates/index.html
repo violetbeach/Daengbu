@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>댕부 홈페이지</title>
-</head>
-<body>
-    <h1>테스트</h1>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+
+<th:block layout:fragment="content">
+
+    <h1>인덱스</h1>
+    
+</th:block>
 </html>
