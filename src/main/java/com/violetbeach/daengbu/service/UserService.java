@@ -22,4 +22,9 @@ public class UserService {
 		return repository.findUserById(id);
 	}
 	
+	public int signUp(UserDto userDto) {
+		repository.signUp(userDto);
+		return userDto.getId();
+	}
+	
 }

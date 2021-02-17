@@ -13,4 +13,5 @@ public interface UserRepository {
 	
 	UserDto findUserById(int id);
 	
+	int signUp(UserDto userDto); 
 }

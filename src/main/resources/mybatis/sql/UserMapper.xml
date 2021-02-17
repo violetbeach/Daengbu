@@ -12,5 +12,16 @@
     <select id="findUserById" parameterType="int" resultType="com.violetbeach.daengbu.dto.UserDto">
         SELECT * FROM user WHERE id=#{id};
     </select>
+    
+    <insert id="signUp" parameterType="com.violetbeach.daengbu.dto.UserDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user
+        (
+        	email, password, username, tel, location1, location2, register_datetime, register_ip, last_login_datetime, last_login_ip
+        )
+        VALUES
+        (
+        	#{email}, #{password}, #{username}, #{tel}, #{location1}, #{location2}, NOW(), '192.0.0.1', NOW(), '192.168.0.0.1'
+        );
+    </insert>
 
 </mapper>

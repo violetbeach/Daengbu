@@ -28,4 +28,9 @@ public class UserController {
 		return userService.findUserById(id);
 	}
 	
+	@GetMapping("/signup")
+	public int signUp(UserDto userDto) {
+		return userService.signUp(userDto);
+	}
+	
 }
