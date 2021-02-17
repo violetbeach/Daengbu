@@ -1,0 +1,12 @@
+@charset "EUC-KR";
+
+:root {
+  --light-pink: #fff7f7;
+}
+
+footer{
+	padding: 31px 0;
+	text-align: center;
+	background-color: var(--light-pink);
+	border-top: 0.7px solid var(--dark-pink);
+}
