@@ -2,8 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <th:block th:fragment="headerFragment">
+	<header>
+		<div id="header_content">
+			
+			<div style="padding-top:14px;float:left;">
+				<a href="#" style="color:black;">Login</a>
+				<span> / </span>
+				<a href="#" style="color:black;">회원가입</a>
+			</div>
+			
+			<img id="logo" th:src="@{/img/header_logo.png}" />
+			
+			<div style="padding-top:58px;float:right;border-bottom:solid 1.5px black;">
+				<input type="text" placeholder="검색어를 입력하세요" style="font-size:18px; border:0px;"></input>
+				<i class="fas fa-search"></i>
 
-    <h1>header</h1>
-
+			</div>
+		
+		</div>
+	</header>
 </th:block>
 </html>
