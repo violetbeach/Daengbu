@@ -14,6 +14,14 @@ a{
 	text-underline-position:under;
 }
 
+img{
+	cursor: pointer;
+}
+
+i{
+	cursor: pointer;
+}
+
 input:focus {
 	outline: none;
 }
@@ -53,12 +61,112 @@ div#header_line{
 	border-bottom: 0.7px solid var(--dark-pink);
 }
 
-div#side_bar{
+#side_bar{
 	width: 291px;
 	float: left;
-	/* temporary background-color for work*/
-	background-color: #00D8FF;
 	margin-right: 34px;
+	text-align: center;
+}
+
+#side_bar > #side_container{
+	width: 291px;
+	margin-bottom: 65px;
+	float: left;
+}
+
+#side_bar #line_wrapper{
+	border-bottom: solid 1.5px #a0a0a0;
+	margin: 0px;
+	padding: 0px;
+}
+
+#side_bar p#widget_title{
+	font-size:28px;
+	font-weight: 800;
+	margin: 0px;
+	display: inline;
+	border-bottom: solid 3.5px #000000;
+	margin: 0px;
+	padding: 0px 14.5px 4px 14.5px;
+}
+
+#side_bar .input_id{
+	width: 291px;
+	height: 54px;
+	margin-top: 30.5px;
+	margin-bottom: 20px;
+	border: solid 1px #a0a0a0a0;
+	font-size: 20px;
+	padding: 0px 16px;
+}
+
+#side_bar .input_password{
+	width: 291px;
+	height: 54px;
+	margin-bottom: 24px;
+	border: solid 1px #a0a0a0a0;
+	font-size: 20px;
+	padding: 0px 16px;
+}
+
+#side_bar .input_id:focus{
+	border: solid 1px var(--dark-pink);
+}
+
+#side_bar .input_password:focus{
+	border: solid 1px var(--dark-pink);
+}
+
+#side_bar .btn_login{
+	width: 291px;
+	height: 58px;
+	text-align: center;
+	border: solid 1px var(--dark-pink);
+	background-color: var(--light-pink);
+	font-size:24px;
+	font-weight:800;
+	color:#6d6d6d;
+}
+
+#side_bar .btn_login:focus{
+	outline: none;
+}
+
+#side_bar #signup_wrapper *{
+	font-size: 22px;
+	color: #707070;
+}
+
+#side_bar .btn_oauth_login {
+	width: 65px;
+	height: 65px;
+}
+
+#side_bar .status_wrapper p{
+	margin: 0px 0px 15px 0px;
+	font-size: 20px;
+}
+
+#side_bar .recent_history_wrapper p{
+	margin: 0px 0px 9px 0px;
+	font-size: 20px;
+}
+
+#side_bar .recent_history_content p{
+	width: 230px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+
+#side_bar .recent_history_date p{
+	color: #868686;
+}
+
+#side_bar .recent_history_wrapper img{
+	width: 20px;
+	height: 20px;
+	margin: 0px 11px 0px 0px;
 }
 
 div#content_wrapper{

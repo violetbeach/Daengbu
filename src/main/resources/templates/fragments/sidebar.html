@@ -3,7 +3,89 @@
 
 <th:block th:fragment="sidebarFragment">
 
-	<h1>Sidebar</h1>
+	<div id="side_container">
+		<div id="line_wrapper">
+			<p id="widget_title">LOGIN</p>
+		</div>
+		<input class="input_id" type='text' placeholder="아이디"></input>
+		<input class="input_password" type='password' placeholder="비밀번호"></input>
+		<button class="btn_login">LOGIN</button>
+		<div style="margin-top:18px">
+			<img class="btn_oauth_login" th:src="@{/img/btn_naver_login.png}" />
+			<img class="btn_oauth_login" th:src="@{/img/btn_kakao_login.png}" style="margin:0px 41.5px" />
+			<img class="btn_oauth_login" th:src="@{/img/btn_google_login.png}" />
+		</div>
+		<div id="signup_wrapper" style="margin-top:32px">
+			<a href="#">회원가입</a>
+			<span style="margin:0px 20px">|</span>
+			<a href="#">정보찾기</a>
+		</div>
+	</div>
+	
+	<div id="side_container">
+		<div id="line_wrapper">
+			<p id="widget_title">최근 입·분양 완료</p>
+		</div>
+		<div style="margin-top:21.5px">
+			<div class="recent_history_wrapper recent_history_content" style="text-align:left;float:left;">
+				<p><img th:src="@{/img/ic_new.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />도그, 성별은 남자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />말티즈, 성별은 남자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />백구, 성별은 남자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />테스트, 성별은 남자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />테스트, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />테스트, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_new.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				<p><img th:src="@{/img/ic_bell.png}" />포메라니안, 성별은 여자, 나이는 2살</p>
+				
+			</div>
+			<div class="recent_history_wrapper recent_history_date" style="text-align:right;float:right;">
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.04</p>
+				<p>02.01</p>
+				<p>02.01</p>
+				<p>02.01</p>
+				<p>02.01</p>
+				<p>02.01</p>
+				<p>02.01</p>
+			</div>
+		</div>
+	</div>
+	
+	<div id="side_container">
+		<div id="line_wrapper">
+			<p id="widget_title">통계</p>
+		</div>
+		<div style="margin-top:27.5px">
+			<div class="status_wrapper" style="text-align:left;float:left;">
+				<p>＊ 현재 접속자</p>
+				<p>＊ 어제 접속자</p>
+				<p>＊ 전체 접속자</p>
+				<p>＊ 전체 입·분양 완료건</p>
+				<p>＊ 전체 회원수</p>
+			</div>
+			<div class="status_wrapper" style="text-align:right;float:right;">
+				<p>00명</p>
+				<p>000명</p>
+				<p>0000명</p>
+				<p>0000건</p>
+				<p>0000명</p>
+			</div>
+		</div>
+	</div>
 
 </th:block>
 
