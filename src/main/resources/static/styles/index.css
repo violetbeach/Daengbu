@@ -10,7 +10,7 @@
 }
 
 a{
-	text-decaration: underline;
+	text-decoration: underline;
 	text-underline-position: under;
 }
 
@@ -42,20 +42,23 @@ header{
 	width: 1184px;
 	height: 156.5px;
 	margin: 0px auto;
-	text-align: center;
 }
 
-header #logo{
+header img#logo{
 	width: 144px;
 	height: 72px;
-	margin: 0px auto;
-	margin-top: 42px;
-	margin-bottom: 42.5px;
-	display: inline-block;
+	position: absolute;
+	left: 50%;
+	top: 42.5px;
+	transform: translate(-50%);
 }
 
 div#header_content *{
 	font-size: 18px;
+}
+
+div#header_content{
+	position: relative;
 }
 
 div#header_line{
@@ -147,7 +150,7 @@ div#header_line{
 }
 
 #side_bar .status_wrapper p{
-	margin: 0px 0px px 0px;
+	margin: 0px 0px 0px 0px;
 	font-size: 20px;
 }
 
@@ -332,4 +335,72 @@ div#footer_content{
 
 div#footer_content *{
 	font-size: 18px;
+}
+
+div#signup_container{
+	width: 500px;
+	margin: 0px auto;
+	text-align: left;
+	position: relative;
+}
+
+#signup_page_logo{
+	width: 150px;
+	height: 77.5px;
+	top: 61px;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%);
+}
+
+div#signup_container .title_input{
+	font-size: 19px;
+	font-weight: 700;
+	margin: 0px 0px 10px 0px;
+}
+
+div#signup_container .input_info{
+	width: 500px;
+	height: 59px;
+	border: solid 1px #b2b2b2;
+	margin: 0px;
+	padding: 0px 9.5px;
+	font-size: 19px;
+}
+
+div#signup_container input:focus{
+	border: solid 1px var(--dark-pink);
+}
+
+div#signup_container .btn_signup{
+	width: 500px;
+	height: 78px;
+	margin-top: 46px;
+	margin-bottom: 177px;
+	border: 0px;
+	background-color: var(--dark-pink);
+	font-size: 24px;
+	font-weight: 700;
+	color: #ffffff;
+	cursor: pointer;
+	text-align: center;
+}
+
+div#signup_container .btn_phoneauth{
+	width: 151px;
+	height: 59px;
+	float: right;
+	margin: 0px;
+	background-color: var(--dark-pink);
+	border: 0px;
+	font-size: 19px;
+	font-weight: 400;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+div#signup_container .valid_warning{
+	font-size: 16px;
+	margin: 6px 0px 0px 0px;
+	color: #ff0000;
 }

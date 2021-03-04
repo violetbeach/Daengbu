@@ -7,6 +7,8 @@ import com.violetbeach.daengbu.dto.model.user.UserDto;
 @Repository
 public interface UserRepository {
 	
-	UserDto findUserByEmail(String email);
+	int getCountByEmail(String email);
+	int getCountByUsername(String userName);
+	void regist(UserDto userDto);
 	
 }

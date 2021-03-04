@@ -3,25 +3,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.violetbeach.daengbu.repository.UserRepository">
-
-	<select id="findAllUsers" resultType="com.violetbeach.daengbu.dto.UserDto">
-        SELECT * FROM user;
-    </select>
-
-    <select id="findUserById" parameterType="int" resultType="com.violetbeach.daengbu.dto.UserDto">
-        SELECT * FROM user WHERE id=#{id};
-    </select>
-    
-    <insert id="signUp" parameterType="com.violetbeach.daengbu.dto.UserDto" useGeneratedKeys="true" keyProperty="id">
+<mapper namespace="com.violetbeach.daengbu.repository.user.UserRepository">
+	
+	<select id="getCountByEmail" parameterType="String" resultType="int">
+		call getUserCountByEmail(#{email});
+	</select>
+	
+	<select id="getCountByUsername" parameterType="String" resultType="int">
+		call getUserCountByUsername(#{username});
+	</select>
+	
+	<insert id="regist" parameterType="com.violetbeach.daengbu.dto.model.user.UserDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user
         (
-        	email, password, username, tel, location1, location2, register_datetime, register_ip, last_login_datetime, last_login_ip
+            email, password, username, tel, register_datetime, register_ip
         )
         VALUES
         (
-        	#{email}, #{password}, #{username}, #{tel}, #{location1}, #{location2}, NOW(), '192.0.0.1', NOW(), '192.168.0.0.1'
+            #{email}, #{password}, #{username}, #{tel}, NOW(), #{registerIp}
         );
     </insert>
-
+	
 </mapper>
