@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.violetbeach.daengbu.controller.v1.command.SignupFormCommand;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
+import com.violetbeach.daengbu.dto.response.Response;
 import com.violetbeach.daengbu.service.UserService;
 import com.violetbeach.daengbu.util.ClientIpUtils;
 
@@ -30,15 +31,15 @@ public class UserController {
 	private UserService userService;
 	
 	@GetMapping("/check-dup-email")
-	public boolean checkDupEmail(@RequestParam("email") String email) {
+	public Response checkDupEmail(@RequestParam("email") String email) {
 		log.info("중복체크, email: '{}'", email);
-		return userService.isDuplicateEmail(email);
+		return Response.ok().setPayload(userService.isDuplicateEmail(email));
 	}
 	
 	@GetMapping("/check-dup-username")
-	public boolean checkDupUsername(@RequestParam("username") String username) {
+	public Response checkDupUsername(@RequestParam("username") String username) {
 		log.info("중복체크, username: '{}'", username);
-		return userService.isDuplicateUsername(username);
+		return Response.ok().setPayload(userService.isDuplicateUsername(username));
 	}
 	 
 	@PostMapping
