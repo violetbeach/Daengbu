@@ -1,10 +1,15 @@
 package com.violetbeach.daengbu.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.violetbeach.daengbu.dto.model.user.UserDto;
+import com.violetbeach.daengbu.exception.CustomException;
+import com.violetbeach.daengbu.exception.DtoType;
+import com.violetbeach.daengbu.exception.ExceptionType;
 import com.violetbeach.daengbu.repository.user.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +24,14 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
+    public UserDto findByEmail(String email) {
+        Optional<UserDto> optUserDto = Optional.ofNullable(userRepository.findByEmail(email));
+        if(optUserDto.isPresent()){
+        	UserDto userDto = optUserDto.get();
+        	return userDto;
+        }
+        throw exception(DtoType.USER, ExceptionType.DTO_NOT_FOUND, email);
+    }
     
     public boolean isDuplicateEmail(String email) {
     	if(userRepository.getCountByEmail(email)==0) return false;
@@ -40,4 +53,8 @@ public class UserService {
     	}
     }
 
+    private RuntimeException exception(DtoType dtoType, ExceptionType exceptionType, String... args) {
+        return CustomException.throwException(dtoType, exceptionType, args);
+    }	
+    
 }

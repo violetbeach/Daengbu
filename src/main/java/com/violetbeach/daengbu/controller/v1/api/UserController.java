@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +31,13 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@GetMapping("/find-by-token")
+	public Response findByToken() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto= userService.findByEmail(auth.getName());
+		return Response.ok().setPayload(userDto);
+	}
 	
 	@GetMapping("/check-dup-email")
 	public Response checkDupEmail(@RequestParam("email") String email) {

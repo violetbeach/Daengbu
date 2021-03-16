@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.violetbeach.daengbu.repository.user.UserRepository">
+
+	<select id="findByEmail" parameterType="String" resultType="com.violetbeach.daengbu.dto.model.user.UserDto">
+		call findUserByEmail(#{email});
+	</select>
 	
 	<select id="getCountByEmail" parameterType="String" resultType="int">
 		call getUserCountByEmail(#{email});
