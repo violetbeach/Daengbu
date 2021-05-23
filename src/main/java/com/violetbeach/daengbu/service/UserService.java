@@ -49,7 +49,7 @@ public class UserService {
     		log.info("회원가입, email: '{}'", userDto.getEmail());
         	userRepository.regist(userDto);
     	} else {
-    		log.info("회원가입 실패");
+    		throw exception(DtoType.USER, ExceptionType.DUPLICATE_DTO, userDto.getEmail());
     	}
     }
 

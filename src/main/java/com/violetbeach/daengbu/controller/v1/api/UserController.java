@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.violetbeach.daengbu.controller.v1.command.SignupFormCommand;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
@@ -52,21 +52,26 @@ public class UserController {
 	}
 	 
 	@PostMapping
-	private RedirectView regist(@Valid @ModelAttribute("signupFormCommand") SignupFormCommand signupFormCommand, 
+	private ModelAndView regist(@Valid @ModelAttribute("signupFormCommand") SignupFormCommand signupFormCommand, 
 			HttpServletRequest request, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
-			log.error("binding error");	
-			return new RedirectView("/signup");
+			log.error("binding error");
+			return new ModelAndView("signup");
 		} else {
-			UserDto userDto = new UserDto()
+			try {	UserDto userDto = new UserDto()
 					.setEmail(signupFormCommand.getEmail())
 					.setPassword(signupFormCommand.getPassword())
 					.setUsername(signupFormCommand.getUsername())
 					.setTel(signupFormCommand.getTel())
 					.setRegisterIp(ClientIpUtils.getClientIP(request));
-			userService.regist(userDto);
-			return new RedirectView("/");
+					userService.regist(userDto);
+			} catch (Exception exception) {
+				return new ModelAndView("signup");
+			}
 		}
+		ModelAndView modelAndView = new ModelAndView("signup_result");
+		modelAndView.addObject("username", signupFormCommand.getUsername());
+		return modelAndView;
 	}
 	
 }

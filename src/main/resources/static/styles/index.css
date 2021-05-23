@@ -30,6 +30,10 @@ input:focus {
 	outline: none;
 }
 
+input:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
 #main_container{
 	width: 1184px;
 	height: 1739px;
@@ -97,7 +101,7 @@ div#header_line{
 	padding: 0px 14.5px 4px 14.5px;
 }
 
-#side_bar .input_id{
+#side_bar .input_email{
 	width: 291px;
 	height: 54px;
 	margin-top: 30.5px;
@@ -116,7 +120,7 @@ div#header_line{
 	padding: 0px 16px;
 }
 
-#side_bar .input_id:focus{
+#side_bar .input_email:focus{
 	border: solid 1px var(--dark-pink);
 }
 
@@ -137,6 +141,11 @@ div#header_line{
 
 #side_bar .btn_login:focus{
 	outline: none;
+}
+
+#side_bar #signup_wrapper{
+	width: 291px;
+	text-align: center;
 }
 
 #side_bar #signup_wrapper *{
@@ -344,6 +353,43 @@ div#signup_container{
 	position: relative;
 }
 
+div#signup_result_container{
+	width: 500px;
+	margin: 0px auto;
+	text-align: center;
+}
+
+div#signup_result_container .go_main{
+	width: 300px;
+	height: 69px;
+	margin-top: 62px;
+	background-color: #e77474;
+	border: 0px;
+	font-size: 25px;
+	color: #ffffff;
+}
+
+div#signup_result_container .major{
+	font-size: 40px;
+}
+
+div#signup_result_container .minor{
+	font-size: 20px;
+	color: #707070;
+}
+
+div#signup_result_container .major span{
+	font-weight: 700;
+}
+
+div#side_login{
+	width: 500px;
+	height: 383.5px;
+	margin: 0px auto;
+	text-align: left;
+	display: hidden;
+}
+
 #signup_page_logo{
 	width: 150px;
 	height: 77.5px;
@@ -403,4 +449,12 @@ div#signup_container .valid_warning{
 	font-size: 16px;
 	margin: 6px 0px 0px 0px;
 	color: #ff0000;
+}
+
+.anonymous{
+	display: none;
+}
+
+.has_authority{
+	display: none;
 }

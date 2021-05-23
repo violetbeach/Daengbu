@@ -4,8 +4,6 @@
     <head>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-		<meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
         <link th:href="@{/styles/index.css}" rel="stylesheet">
         <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
         <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
@@ -21,7 +19,7 @@
     			<input id="input_email" class="input_info" type="email" th:field="*{email}" name="email" maxlength="30"/>
     			<p id="valid_email" class="valid_warning"></p>
     			<p class="title_input" style="margin-top:12px;"> 닉네임 </p>
-    			<input id="input_username" class="input_info" type="text" th:field="*{username}" name="username" maxlength="16"/>
+    			<input id="input_username" class="input_info" type="text" th:field="*{username}" name="username" maxlength="15"/>
     			<p id="valid_username" class="valid_warning"></p>
     			<p class="title_input" style="margin-top:12px;"> 비밀번호 </p>
     			<input id="input_password" class="input_info" type="password" th:field="*{password}" name="password" maxlength="16"/>

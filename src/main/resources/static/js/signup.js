@@ -1,6 +1,3 @@
-var token = $("meta[name='_csrf']").attr("content");
-var header = $("meta[name='_csrf_header']").attr("content");
-
 $(document).ready(function(){
 
 	var emailPattern = RegExp(/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i);
@@ -26,7 +23,7 @@ $(document).ready(function(){
 			type : 'get',
 			contentType: "application/json; charset=UTF-8",
 			success: function(data, status){
-				if(data==true) $("#valid_email").text("이미 사용중이거나 탈퇴한 아이디입니다.");
+				if(data.payload==true) $("#valid_email").text("이미 사용중이거나 탈퇴한 아이디입니다.");
 				else if(!emailPattern.test($("#input_email").val())) $("#valid_email").text("올바른 이메일 형식이 아닙니다.");
 				else{
 					$("#valid_email").text("");
@@ -53,7 +50,7 @@ $(document).ready(function(){
 			type : 'get',
 			contentType: "application/json; charset=UTF-8",
 			success: function(data, status){
-				if(data==true) $("#valid_username").text("이미 사용중인 닉네임입니다.");
+				if(data.payload==true) $("#valid_username").text("이미 사용중인 닉네임입니다.");
 				else if(usernamePattern.test($("#input_username").val())) $("#valid_username").text("공백은 사용할 수 없습니다.");
 				else if($("#input_username").val().length<2) $("#valid_username").text("2~16자만 사용 가능합니다.");
 				else{
@@ -74,7 +71,7 @@ $(document).ready(function(){
 	
 	$("#input_password").focusout(function(){
 		if($("#input_password").val().trim()=="") $("#valid_password").text("필수 정보입니다.");
-		else if(!passwordPattern.test($("#input_password").val())) $("#valid_password").text("8~16자 영문 소문자, 숫자, 특수문자를 사용하세요.");
+		else if(!passwordPattern.test($("#input_password").val())) $("#valid_password").text("8~16자ftndl 영문 소문자, 숫자, 특수문자를 사용하세요.");
 		else{
 			$("#valid_password").text("");
 			passwordFlag = true;
