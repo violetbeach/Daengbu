@@ -1,11 +1,14 @@
 package com.violetbeach.daengbu.controller.v1.api;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,11 +35,23 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/find-by-token")
-	public Response findByToken() {
+	@GetMapping("/me")
+	public Response findByToken(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDto userDto= userService.findByEmail(auth.getName());
-		return Response.ok().setPayload(userDto);
+		if(auth.getName()!="anonymousUser") {
+			UserDto userDto=userService.findByEmail(auth.getName());
+			return Response.ok().setPayload(userDto);
+		} else return Response.badRequest().setPayload(new UserDto());
+	}
+	
+	@GetMapping("/logout")
+	public void deleteCookie(HttpServletResponse res) {
+		Cookie cookie = new Cookie("token", null);
+		cookie.setMaxAge(0);
+		cookie.setSecure(true);
+		cookie.setHttpOnly(true);
+		cookie.setPath("/");
+		res.addCookie(cookie);
 	}
 	
 	@GetMapping("/check-dup-email")

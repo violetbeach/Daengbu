@@ -1,9 +1,6 @@
 package com.violetbeach.daengbu.security.api;
 
-import static com.violetbeach.daengbu.security.SecurityConstants.EXPIRATION_TIME;
-import static com.violetbeach.daengbu.security.SecurityConstants.HEADER_STRING;
-import static com.violetbeach.daengbu.security.SecurityConstants.SECRET;
-import static com.violetbeach.daengbu.security.SecurityConstants.TOKEN_PREFIX;
+import static com.violetbeach.daengbu.security.SecurityConstants.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -73,7 +71,11 @@ public class ApiJWTAuthenticationFilter extends UsernamePasswordAuthenticationFi
                         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                         .signWith(SignatureAlgorithm.HS512, SECRET)
                         .compact();
-                res.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+                Cookie cookie = new Cookie("token", token);
+                cookie.setPath("/");
+                cookie.setMaxAge(60 * 60 * 24 * 7);
+                cookie.setHttpOnly(true);
+                res.addCookie(cookie);
                 log.info("로그인 성공, email: '{}'", login);
             }
         }

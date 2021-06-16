@@ -1,6 +1,5 @@
 package com.violetbeach.daengbu.security.api;
 
-import static com.violetbeach.daengbu.security.SecurityConstants.HEADER_STRING;
 import static com.violetbeach.daengbu.security.SecurityConstants.SECRET;
 import static com.violetbeach.daengbu.security.SecurityConstants.TOKEN_PREFIX;
 
@@ -9,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,18 +33,17 @@ public class ApiJWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
                                     FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader(HEADER_STRING);
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        String token = getToken(req);
+        if (token == null) {
             chain.doFilter(req, res);
             return;
         }
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+        UsernamePasswordAuthenticationToken authentication = getAuthentication(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
+    private UsernamePasswordAuthenticationToken getAuthentication(String token) {
         if (token != null) {
             Claims claims = Jwts.parser()
                     .setSigningKey(SECRET)
@@ -66,4 +65,17 @@ public class ApiJWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
         return null;
     }
+    
+    private String getToken(HttpServletRequest request){
+		Cookie cookies[] = request.getCookies();
+		if(cookies!=null) {
+			for(Cookie c:cookies) {
+				if(c.getName().equals("token")) {
+					return c.getValue();
+				}
+			}		
+		}
+		return null;
+	}
+    
 }

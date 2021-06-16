@@ -4,21 +4,25 @@
 <th:block th:fragment="headerFragment">
 	<header>
 		<div id="header_content">
-			
-			<div style="padding-top:14px;float:left;">
-				<a href="#" style="color:black;">Login</a>
-				<span> / </span>
-				<a href="#" style="color:black;">회원가입</a>
-			</div>
+		
+		    <div style="padding-top:14px;margin-right:6px;float:right;">
+		    	<div class="anonymous">
+                	<a th:href="@{/login}" style="color:black;">Login</a>
+                	<span> / </span>
+                	<a th:href="@{/signup}" style="color:black;">회원가입</a>
+                </div>
+                <div class="has_authority dropdown">
+                	<span id="header_username" class="dropdown-toggle username" data-toggle="dropdown" style="font-weight:800;color:#707070;"></span>
+                	<div class="dropdown-menu">
+                		<a class="dropdown-item btn_logout">로그아웃</a>
+                		<a class="dropdown-item" href="#">정보수정</a>
+                	</div>
+                </div>
+            </div>
 			
 			<img id="logo" th:src="@{/img/ic_header_logo.png}" onclick="location.href='/'"/>
-			
-			<div style="padding-top:58px;float:right;border-bottom:solid 1.5px black;">
-				<input type="text" placeholder="검색어를 입력하세요" style="font-size:18px; border:0px;"></input>
-				<i class="fas fa-search"></i>
 			</div>
 		
-		</div>
 	</header>
 </th:block>
 </html>

@@ -2,23 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <th:block th:fragment="sidebarFragment">
-
+	
 	<div id="side_container">
 		<div id="line_wrapper">
 			<p id="widget_title">LOGIN</p>
 		</div>
-		<input class="input_id" type='text' placeholder="아이디"></input>
-		<input class="input_password" type='password' placeholder="비밀번호"></input>
-		<button class="btn_login">LOGIN</button>
-		<div style="margin-top:18px">
-			<img class="btn_oauth_login" th:src="@{/img/btn_naver_login.png}" />
-			<img class="btn_oauth_login" th:src="@{/img/btn_kakao_login.png}" style="margin:0px 41.5px" />
-			<img class="btn_oauth_login" th:src="@{/img/btn_google_login.png}" />
-		</div>
-		<div id="signup_wrapper" style="margin-top:32px">
-			<a href="#">회원가입</a>
-			<span style="margin:0px 20px">|</span>
-			<a href="#">정보찾기</a>
+		<div id="side_login">
+			<div class="anonymous login_wrapper">
+				<p style="margin: 0 0 0 5px;">댕부를 더 안전하고 편리하게 이용하세요</p>
+				<a th:href="@{/login}"><button id="btn_login_handler">댕부 로그인</button></a>
+				<p style="float:left;margin-left:5px"><a href="#">아이디/비밀번호 찾기</a></p>
+				<p style="float:right;margin-right:5px"><a th:href="@{/signup}">회원가입</a></p>
+			</div>
+			<div id="side_profile_container" class="has_authority">
+				<div id="side_profile" th:fragment="side_profile">
+					<div id="profile_top">
+						<span id="profile_username">
+							<span class="username" style="margin:0px;"></span>님
+						</span>
+						<p style="font-size: 10px;margin:8px 0 0 5px;color:#707070;vertical-align:top;display:inline-block;">
+							<a href="#">
+								정보수정
+								<img th:src="@{/img/ic_lock_profile.png}" style="margin-bottom:3px;"/>
+							</a>
+						</p>
+						<button class="side_logout btn_logout">로그아웃</button>
+					</div>
+					<div id="profile_bottom">
+						<span class="profile_btn" style="margin-left:24px;"><a href="#">알림</a></span>
+						<div style="margin:0;width:0;height:13px;border:solid 1px #c6c6c6;display:inline-block;"></div>
+						<span class="profile_btn"><a href="#">댕톡</a></span>
+						<div style="margin:0;width:0;height:13px;border:solid 1px #c6c6c6;display:inline-block;"></div>
+						<span class="profile_btn"><a href="#">관심</a></span>
+						<div style="margin:0;width:0;height:13px;border:solid 1px #c6c6c6;display:inline-block;"></div>
+						<span class="profile_btn" style="margin-right:24px;"><a href="#">내글</a></span>
+					</div>
+				</div>
+				<a th:href="@{/article/new}"><button id="btn_post" style="margin-top:24px">글쓰기</button></a>
+			</div>
 		</div>
 	</div>
 	
