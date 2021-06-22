@@ -25,9 +25,8 @@ public class UserDto{
 	private String password;
 	private String username;
 	private String tel;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	private Long role;
-	private int location1;
-	private int location2;
 	private String registerIp;
 	
 }
