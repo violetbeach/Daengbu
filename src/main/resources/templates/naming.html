@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+	<title>AI 강아지 이름 추천 시스템</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div style="margin:80.5px 0;text-align:center;">
+		<p style="color:var(--dark-pink);font-size:40px;font-weight:800;">우리 댕댕이 이름은?!</p>
+		<p class="naming_sub_title" style="color:#a0a0a0;font-size:20px;font-weight:800;">귀여운 우리 댕댕이한테 어울리는 이름을 알아보세요!</p>
+		<div id="naming_img_box">
+			<img class="btn_add_image" th:src="@{/img/ic_upload_img.png}" />
+			<img id="dog-image" class="img_naming" src="#"/>
+			<div class="loading-container">
+    			<div class="loading"></div>
+    			<div id="loading-text">loading</div>
+			</div>
+		</div>
+		<div id="naming_img_box_result">
+			<div class="translate-container">
+				<div id="translate-box1" class="translate-box">
+					<img src="#" class="translate-image translate-dog-image" style="border-radius:20px 0 0 0" />
+				</div>
+				<div id="translate-box2" class="translate-box">
+					<img src="#" class="translate-image translate-dog-image" />
+					<img src="#" class="translate-image translate-name-image opacity1" />
+				</div>
+				<div id="translate-box3" class="translate-box">
+					<img src="#" class="translate-image translate-dog-image" />
+					<img src="#" class="translate-image translate-name-image opacity2" />
+				</div>
+				<div id="translate-box4" class="translate-box">
+					<img src="#" class="translate-image translate-name-image" style="border-radius:0 20px 0 0" />
+				</div>
+			</div>
+			<div class="translate-result">
+				<div style="width:239px;height:36px;border-radius:65px;background-color:#e77474;margin:16px auto;">
+					<p style="font-size:16px;font-weight:700;color:#ffffff;line-height:36px;">우리 댕댕이의 찰떡이름은?!</p>
+				</div>
+				<p id="naming_name"></p>
+			</div>
+		</div>
+		<input id="naming_cancel" type="button" value="홈으로" onclick="window.location.href='/'" />
+		<input id="naming_submit" type="button" value="결과보기" onclick="predict()" />
+		<input id="naming_retry" type="button" value="다시하기" onclick="retry()" />
+		
+	</div>
+	<input type="file" class="upload_img" accept="image/*" onchange="setPreviewImage(event);" style="display:none;"/>
+
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+
+	<script>
+	
+	const URL = "/model/";
+
+    let model, maxPredictions;
+
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+    }
+
+    async function predict() {
+    	$(".loading-container").css("display","block");
+        var image = document.getElementById("dog-image");
+        const prediction = await model.predict(image, false);
+        for(let i = 0; i < maxPredictions; i++){
+        	var max = i;
+        	for (let j = i + 1; j < maxPredictions; j++) {
+        		if (prediction[j].probability>prediction[max].probability){
+        			max = j
+        		}
+        	}
+
+        	if(max==i){
+        		continue;
+        	}
+        	
+    		let temp_class = prediction[max].className;
+    		let temp_value = prediction[max].probability;
+    		prediction[max].className = prediction[i].className;
+    		prediction[max].probability = prediction[i].probability;
+    		prediction[i].className = temp_class;
+    		prediction[i].probability = temp_value;
+        }
+        
+        var name = prediction[Math.floor(Math.random() * 2)].className;
+        setTimeout(function(){
+        	console.log(prediction[0].className);
+        	console.log(prediction[1].className);
+        	$(".loading-container").css("display","none");
+            
+            var dog_image_src = $('img#dog-image').attr("src");
+            
+            $('#naming_img_box').css("display","none");
+            $('#naming_img_box_result').css("display","block");
+            
+            $('.translate-dog-image').attr("src",dog_image_src);
+            $('.translate-name-image').attr("src","/img/naming/"+name+".jpg");
+            $('#naming_name').html(name)
+            $('#naming_submit').css("display","none")
+            $('#naming_retry').css("display","inline-block")
+        }, 3000)    
+    }
+    
+    function retry(){
+        $('#naming_img_box, .btn_add_image').css("display","block");
+        $('#naming_img_box_result').css("display","none");
+        $('#naming_submit').css("display","inline-block");
+        $('#naming_retry, img#dog-image').css("display","none");
+        $('.upload_img').val("");
+    }
+	
+	init();
+	
+	$("#naming_img_box").click(function(){
+		$(".upload_img").click();
+	});
+	
+	function setPreviewImage(event) {
+		var reader = new FileReader();
+		reader.onload = function(event){
+			$('.btn_add_image').css("display","none");
+			$('img#dog-image').css("display","block")
+			$('img#dog-image').attr("src", event.target.result);
+		};
+		reader.readAsDataURL(event.target.files[0])
+    }
+	
+	</script>
+	
+</th:block>
+</html>
