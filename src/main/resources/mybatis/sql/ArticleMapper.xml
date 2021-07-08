@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.violetbeach.daengbu.repository.article.ArticleRepository">
+
+	<insert id="postArticle" parameterType="com.violetbeach.daengbu.dto.model.article.ArticleDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article
+        (
+            author_id, kind_id, location1, location2, age, gender, title, created_datetime
+        )
+        VALUES
+        (
+            #{authorId}, #{kindId}, #{location1}, #{location2}, #{age}, #{gender}, #{title}, NOW()
+        );
+    </insert>
+    
+    <insert id="postText" parameterType="com.violetbeach.daengbu.dto.model.article.ContentDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO content
+        (
+            article_id, author_id, text
+        )
+        VALUES
+        (
+            #{articleId}, #{authorId}, #{text}
+        );
+    </insert>
+    
+    <insert id="postImage" parameterType="com.violetbeach.daengbu.dto.model.article.ArticleImageDto" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article_image
+        (
+            article_id
+        )
+        VALUES
+        (
+            #{articleId}
+        );
+    </insert>
+	
+</mapper>

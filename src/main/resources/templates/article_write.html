@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/home">
+<head>
+	<title>글쓰기</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div id="post_container">
+		<p style="font-size:20px; color:#e77474;">
+			<img style="width:20px;height:20px;padding-bottom:5px;margin:0px;cursor:default;" th:src="@{/img/ic_rightarrow_red.png}" />
+			글쓰기
+		</p>
+		<form id="form" method="post" enctype="multipart/form-data">
+		<p style="margin-top:37px;">
+    		<select name="location1" required class="select_option" style="width:141px;margin-right:25px;">
+    			<option value="*" selected  hidden="true">지역</option>
+    		</select>
+    		
+    		<select name="location2" required class="select_option" style="width:116px;margin-right:25px;" disabled>
+    			<option value="*" selected hidden="true">구/군</option>
+    		</select>
+    		
+    		<select name="kindId" required class="select_option" style="width:206px; margin-right:25px;">
+    			<option value="0" selected hidden="true">견종</option>
+    		</select>
+    		
+    		<select th:field="${postFormCommand.age}" name="age" class="select_option" style="width:149px;margin-right:25px;">
+    			<option value="*" selected hidden="true">나이</option>
+    			<option value="1개월 미만">1개월 미만</option>
+    			<option value="3개월 미만">3개월 미만</option>
+    			<option value="3개월 ~ 6개월">3개월 ~ 6개월</option>
+    			<option value="6개월 ~ 12개월">6개월 ~ 12개월</option>
+    			<option value="1살">1살</option>
+    			<option value="2살">2살</option>
+    			<option value="3살">3살</option>
+    			<option value="4살">4살</option>
+    			<option value="5살 ~ 10살">5살 ~ 10살</option>
+    			<option value="10살 이상">10살 이상</option>
+    		</select>
+    		<select th:field="${postFormCommand.gender}" name="gender" class="select_option" style="width:90px;">
+    			<option value="*" selected hidden="true">성별</option>
+    			<option value="수컷">수컷 ♂</option>
+    			<option value="암컷">암컷 ♀</option>
+    		</select>
+    	</p>
+    	<p style="width:100%;font-size:20px;font-weight:700;display:inline-block;margin:30px 0 15px 0;">
+    		<span style="padding-top:6px;display:inline-block">제목</span>
+    		<input th:field="${postFormCommand.title}" type="text" name="title" id="write_title" autocomplete="off"/>
+    	</p>
+    	<div style="width:100%;font-size:20px;font-weight:700;display:inline-block;margin:0;">
+    		<span style="padding-top:10px;display:inline-block">이미지 업로드</span>
+    		<div id="write_image_box">
+    			<p id="upload_placeholder">
+    				<img th:src="@{/img/ic_clip_upload.png}" style="padding-bottom:4px;" />
+    				이 곳에 파일을 드래그 하세요. 또는
+					<span style="font-weight:800;color:#707070;text-decoration:underline;cursor:pointer">파일선택</span>
+    			</p>
+    			<div id="img_list" style="display:inline-block;"></div>
+    			<div id="btn_add_image">
+    				<img width="30" height="30" th:src="@{/img/ic_upload_img.png}" />
+    			</div>
+    		</div>
+    		<input type="file" class="upload_img" accept="image/*" onchange="setPreviewImage(event);" style="display:none;" multiple/>
+    	</div>
+    	<textarea th:field="${postFormCommand.text}"  name="text" id="write_content" placeholder="내용을 입력해주세요."></textarea>
+    	<a th:href="@{/}"><button id="btn_write_cancel" type="button">취소</button></a>
+    	<input th:if="${postFormCommand.articleId}==null" id="btn_write_submit"  class="btn_write_submit" type="button" value="등록"/> 
+    	<input th:unless="${postFormCommand.articleId}==null" id="btn_modify_submit" type="button" class="btn_write_submit" value="수정"/> 
+    	</form>
+	</div>
+    
+    <script th:inline="javascript">
+	
+ 	// 글쓰기 이미지 미리보기, 배열에 저장
+    var files = new Array();
+    function setPreviewImage(event) {
+    	var uploadList=Array.from(event.target.files);
+    	var count = files.length+event.target.files.length;
+    	if(count>5){
+    		for(var i=0;i<count-5;i++) {
+    			uploadList.pop();
+    		}
+    		alert("이미지 파일 업로드는 최대 5장 까지 가능합니다.");	
+    	}
+    	for (var image of uploadList) {
+    		files.push(image);
+    		var reader = new FileReader();
+    		reader.onload = function(event) {
+    			var div = document.createElement("div");
+    			div.setAttribute("class", "preview_box");
+    			var img = document.createElement("img");
+    			img.setAttribute("src", event.target.result);
+    			img.setAttribute("class", "img_preview");
+    			$(div).append(img);
+    			
+    			var btn_cancel = document.createElement("img");
+    			btn_cancel.setAttribute("src", "/img/ic_upload_img_cancel.png");
+    			btn_cancel.setAttribute("class", "btn_upload_cancel");
+    			$(div).append(btn_cancel);
+    			$(btn_cancel).click(function(){
+    				console.log($(this).parent().index());
+    				files.splice($(this).parent().index(), 1);
+    				$(this).parent().remove();
+    			});
+    			
+    			$("div#img_list").append(div);
+    			
+    			if(files.length!=0) $('#upload_placeholder').hide();
+    			else $('#upload_placeholder').show();
+    			if(files.length!=0 && files.length<=4){
+    				$('#btn_add_image').css("display","inline-block");
+    				$(".upload_img").attr('disabled', false);
+    			} else {
+    				$('#btn_add_image').css("display","none");
+    				$(".upload_img").attr('disabled', true);
+    			}
+    		};
+    		reader.readAsDataURL(image);
+    	}
+    }
+    
+    $('#btn_write_submit').click(function(){
+    	var formData = new FormData($('#form')[0]);
+    	for (var i = 0; i < files.length; i++){
+    		formData.append("images", files[i])
+    	}
+    	$.ajax({
+    		url : '/api/v1/article',
+    		type : 'post',
+    		data : formData,
+    		cache : false,
+    		contentType : false,
+    		processData : false,
+    		error : function(){
+    		},
+    		success : function(data){
+    			location.href = data;
+    		}
+    	})
+    })
+    
+    $(document).ready(function(){
+    	
+    	// 지역 선택
+    	var area0 = ["서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
+    	var area1 = ["전체","강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"];
+   		var area2 = ["전체","계양구","남구","남동구","동구","부평구","서구","연수구","중구","강화군","옹진군"];
+   		var area3 = ["전체","대덕구","동구","서구","유성구","중구"];
+   		var area4 = ["전체","광산구","남구","동구","북구","서구"];
+   		var area5 = ["전체","남구","달서구","동구","북구","서구","수성구","중구","달성군"];
+   		var area6 = ["전체","남구","동구","북구","중구","울주군"];
+   		var area7 = ["전체","강서구","금정구","남구","동구","동래구","부산진구","북구","사상구","사하구","서구","수영구","연제구","영도구","중구","해운대구","기장군"];
+   		var area8 = ["전체","고양시","과천시","광명시","광주시","구리시","군포시","김포시","남양주시","동두천시","부천시","성남시","수원시","시흥시","안산시","안성시","안양시","양주시","오산시","용인시","의왕시","의정부시","이천시","파주시","평택시","포천시","하남시","화성시","가평군","양평군","여주군","연천군"];
+   		var area9 = ["전체","강릉시","동해시","삼척시","속초시","원주시","춘천시","태백시","고성군","양구군","양양군","영월군","인제군","정선군","철원군","평창군","홍천군","화천군","횡성군"];
+   		var area10 = ["전체","제천시","청주시","충주시","괴산군","단양군","보은군","영동군","옥천군","음성군","증평군","진천군","청원군"];
+   		var area11 = ["전체","계룡시","공주시","논산시","보령시","서산시","아산시","천안시","금산군","당진군","부여군","서천군","연기군","예산군","청양군","태안군","홍성군"];
+   		var area12 = ["전체","군산시","김제시","남원시","익산시","전주시","정읍시","고창군","무주군","부안군","순창군","완주군","임실군","장수군","진안군"];
+   		var area13 = ["전체","광양시","나주시","목포시","순천시","여수시","강진군","고흥군","곡성군","구례군","담양군","무안군","보성군","신안군","영광군","영암군","완도군","장성군","장흥군","진도군","함평군","해남군","화순군"];
+   		var area14 = ["전체","경산시","경주시","구미시","김천시","문경시","상주시","안동시","영주시","영천시","포항시","고령군","군위군","봉화군","성주군","영덕군","영양군","예천군","울릉군","울진군","의성군","청도군","청송군","칠곡군"];
+   		var area15 = ["전체","거제시","김해시","마산시","밀양시","사천시","양산시","진주시","진해시","창원시","통영시","거창군","고성군","남해군","산청군","의령군","창녕군","하동군","함안군","함양군","합천군"];
+   		var area16 = ["전체","서귀포시","제주시","남제주군","북제주군"];
+    	
+   		$("select[name^=location1]").each(function() {
+   			select_location1 = $(this);
+   			$.each(area0, function() {
+   				select_location1.append("<option value='"+this+"'>"+this+"</option>");
+   			});
+   		});
+   		
+   		// 시/도 선택시 구/군 설정
+   		$("select[name^=location1]").change(function() {
+   			var area = "area"+$("option",$(this)).index($("option:selected", $(this)));
+   			var select_location2 = $(this).next();
+   			select_location2.removeAttr("disabled")
+   			$("option", select_location2).remove();
+   			$.each(eval(area), function() {
+   				select_location2.append("<option value='"+this+"'>"+this+"</option>");
+   			});
+   		});
+   		
+   		if(location1 != null) {
+   			$("select[name^=location1]").val(location1);
+   			$("select[name^=location1]").change();
+   			$("select[name^=location2]").val(location2);
+   		}
+   		
+   		$.ajax({
+			url: '/api/v1/article/kind',
+			type : 'get',
+			success : function(response, status, xhr){
+				response.forEach(function(kind) {
+					$("select[name^=kindId]").append("<option value='"+kind['id']+"'>"+kind['value']+"</option>");
+				});
+				if(kind_id != null) $("select[name^=kindId]").val(kind_id);
+			}
+		});
+    	
+    	// 이미지 업로드
+    	$("#upload_placeholder").click(function(){
+    		$(".upload_img").click();
+    	});
+    	
+    	$("#btn_add_image").click(function(){
+    		$(".upload_img").click();
+    	});
+    	
+    })
+    
+    </script>
+    
+</th:block>
+</html>

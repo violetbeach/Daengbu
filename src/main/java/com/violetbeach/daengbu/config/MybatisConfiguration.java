@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 
 @Configuration
@@ -21,6 +22,8 @@ public class MybatisConfiguration {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource);
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/sql/*.xml"));
+		org.springframework.core.io.Resource myBatisConfig = new PathMatchingResourcePatternResolver().getResource("classpath:mybatis-config.xml");
+	    factoryBean.setConfigLocation(myBatisConfig);
 		SqlSessionFactory factory = factoryBean.getObject();
 		return factory;
 	}
