@@ -9,6 +9,7 @@ import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.article.ArticleImageDto;
 import com.violetbeach.daengbu.dto.model.article.ContentDto;
 import com.violetbeach.daengbu.dto.model.article.KindDto;
+import com.violetbeach.daengbu.dto.model.article.WishlistDto;
 import com.violetbeach.daengbu.repository.article.ArticleRepository;
 import com.violetbeach.daengbu.repository.article.KindRepository;
 
@@ -38,6 +39,14 @@ public class ArticleService {
 			articleRepository.postImage(imageDto);
 		}
 		return articleDto.getId();
+	}
+	
+	public List<ArticleDto> getArticleList(ArticleDto articleDto){
+		return articleRepository.getArticleList(articleDto);
+	}
+	
+	public List<ArticleImageDto> getArticleImageList(ArticleDto articleDto){
+		return articleRepository.getArticleImageList(articleDto);
 	}
 	
 }

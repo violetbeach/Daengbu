@@ -42,7 +42,6 @@ i {
 }
 #main_container {
     width: 1184px;
-    height: 1739px;
     margin: 42.5px auto 38px;
 }
 header {
@@ -108,10 +107,10 @@ div#header_line {
 }
 div#content_wrapper {
     width: 859px;
-    height: 1739px;
     border: solid 1px #c0c0c0;
     padding: 28px 26px;
     float: right;
+    margin-bottom: 80px;
 }
 div#content_wrapper .select_option {
     height: 40px;
@@ -142,6 +141,13 @@ div#content_wrapper .select_order {
     border: 0;
     padding-right: 30px;
 }
+
+.select_page_numberlist .selected_page {
+	color: var(--dark-pink);
+	font-weight:700;
+	cursor: default;
+	pointer-events: none;
+}
 select {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -163,11 +169,24 @@ select::-ms-expand {
     font-weight: 800;
     margin: 0;
 }
-#content_wrapper .board_card {
-    width: 247px;
+#content_wrapper div.board_card {
+    width: 245px;
     height: 319px;
-    float: left;
+    margin-bottom: 37px;
+    display: inline-block;
     cursor: pointer;
+}
+#content_wrapper div.board_card .post_date{
+    font-size: 16px;
+    font-weight: 700;
+    color: #707070;
+    margin-top: 4px;
+}
+.article_list div:nth-child(3n+2){
+	margin-right: 27px;
+}
+.article_list div:nth-child(3n+1){
+	margin-right: 27px;
 }
 .board_card > .card_img {
     width: 247px;
@@ -187,37 +206,23 @@ select::-ms-expand {
     text-align: center;
     margin: 0;
 }
-.row_cards {
-    width: 807px;
-    margin: 0 auto 33px;
-    float: left;
-}
-.row_cards:nth-child(4) {
-    margin-bottom: 28px;
-}
 .img_card {
     width: 247px;
     height: 176px;
     margin: 0;
 }
-#content_wrapper .board_card:nth-child(2n + 1) {
-    margin: 0;
-}
-.row_cards .board_card:nth-child(2) {
-    margin-left: 33px;
-    margin-right: 33px;
-}
 .select_page_container {
     width: 807px;
     margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
 }
 .select_page_container .boardlist_arrow {
     width: 40px;
     height: 40px;
     margin: 0;
-}
-.select_page_numberlist {
-    float: left;
+    cursor: default;
+    margin-bottom: 10px;
 }
 .select_page_container .select_page_numberlist {
     margin: 0 auto;
@@ -226,9 +231,7 @@ select::-ms-expand {
     font-size: 30px;
     color: #868686;
     cursor: pointer;
-}
-.select_page_numberlist > span:not(:last-child) {
-    margin-right: 62px;
+    margin: 0px 20px;
 }
 footer {
     height: 89px;
@@ -496,13 +499,6 @@ button#btn_post:focus {
 }
 #login_container a {
     text-decoration: none;
-}
-#post_container {
-    width: 859px;
-    height: 1110px;
-    margin: 42.5px auto 38px;
-    border: solid 1px #c8c8c0;
-    padding: 30px 25px;
 }
 #post_container #write_title {
     width: 642px;

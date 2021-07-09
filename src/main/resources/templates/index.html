@@ -1,169 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layouts/default">
+      layout:decorator="layouts/home">
+
+<head>
+	<title>강아지 입·분양 커뮤니티</title>
+</head>
 
 <th:block layout:fragment="content">
-
-    <img th:src="@{/img/ic_daengbu_logo.png}" class="content_logo" />
-    <p class="content_title">상세검색</p>
+	<div th:if="${search}==true">
+    	<img th:src="@{/img/ic_daengbu_logo.png}" class="content_logo" />
+    	<p class="content_title">상세검색</p>
     
-    <div style="width:808px;margin-top:30px;float:left;">
-    	<select class="search_option" style="width:197px;">
-    		<option selected>지역</option>
-    	</select>
-    	<select class="search_option" style="width:197px;">
-    		<option selected>견종</option>
-    	</select>
-    	<select class="search_option" style="width:145px;">
-    		<option selected>나이</option>
-    	</select>
-    	<select class="search_option" style="width:145px;">
-    		<option selected>성별</option>
-    	</select>
-    	<img th:src="@{img/btn_content_search.png}" style="width:44px;height:45px;margin:0px;float:left;" />
+    	<div style="width:808px;margin-top:30px;float:left;">
+    		<select name="location1" required class="select_option" style="width:197px;margin-bottom:37px;">
+    			<option value="" selected  hidden="true">지역</option>
+    		</select>
+    		<select name="kind" required class="select_option" style="width:197px;">
+    			<option value="" selected hidden="true">견종</option>
+    			<option value="">전체</option>
+    		</select>
+    		<select name="age" class="select_option" style="width:145px;">
+    				<option value="" selected hidden="true">나이</option>
+    				<option value="">전체</option>
+    				<option value="1개월 미만">1개월 미만</option>
+    				<option value="3개월 미만">3개월 미만</option>
+    				<option value="3개월 ~ 6개월">3개월 ~ 6개월</option>
+    				<option value="6개월 ~ 12개월">6개월 ~ 12개월</option>
+    				<option value="1살">1살</option>
+    				<option value="2살">2살</option>
+    				<option value="3살">3살</option>
+    				<option value="4살">4살</option>
+    				<option value="5살 ~ 10살">5살 ~ 10살</option>
+    				<option value="10살 이상">10살 이상</option>
+    			</select>
+    		<select name="gender" class="select_option" style="width:145px;">
+    				<option value="" selected hidden="true">성별</option>
+    				<option value="">전체</option>
+    				<option value="수컷">수컷 ♂</option>
+    				<option value="암컷">암컷 ♀</option>
+    			</select>
+    		<img class="btn_article_search" th:src="@{/img/btn_content_search.png}" style="width:40px;height:40px;margin:0px;float:left;" />
+    	</div>
     </div>
     
-    <div style="width:807px;margin-top:47px;margin-bottom:41px;font-size:0px;float:left;">
+    <div style="width:807px;margin-top:10px;margin-bottom:41px;font-size:0px;float:left;">
     	<img th:src="@{/img/ic_daengbu_logo.png}" class="content_logo" />
-    	<span class="content_title">분양 게시판</span>
+    	<span class="content_title" th:text="${board_name}"></span>
     	<span style="font-size:28px;color:#b2b2b2;line-height:1.14;margin:0px;">&nbsp;|&nbsp;</span>
     	<span style="font-size:20px;line-height:1.14;margin:0px;">총&nbsp;</span>
-    	<span style="font-size:20px;color:#ffa000;line-height:1.14;margin:0px;">329</span>
+    	<span th:text="${maxNum}" style="font-size:20px;color:#ffa000;line-height:1.14;margin:0px;"></span>
     	<span style="font-size:20px;line-height:1.14;margin:0px;">건</span>
     	<select class="select_order">
     		<option selected>등록일순</option>
     	</select> 
     </div>
     
-    <div class="row_cards">
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
+    <div class="article_list">
+    	<div th:onclick="'location.href=\'/article/'+ @{${articleDto.id}} + '\''" th:each="articleDto, i: ${articleList}" class="board_card">
+    		<img th:src="@{'/img/post/'+${articleDto.repImg}+'.png'}" class="card_img" />
     		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    </div>
-    
-    <div class="row_cards">
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    </div>
-    
-    <div class="row_cards">
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    </div>
-    
-    <div class="row_cards">
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
-    		</div>
-    	</div>
-    	<div class="board_card">
-    		<img th:src="@{/img/ic_board_test.png}" class="card_img" />
-    		<div class="card_content">
-    			<p style="font-size:22px;font-weight:800;">뽀삐</p>
-    			<p style="font-size:20px;margin-top:2px;">부산광역시 사상구</p>
-    			<p style="font-size:20px;">골드리트리버 / 여 / 2살</p>
-    			<p style="font-size:16px;font-weight:700;color:#707070;margin-top:4px;">1분전</p>
+    		<p class="kind_id" th:text="${articleDto.kindId}"style="font-size:22px;font-weight:800;"></p>
+   			<p style="font-size:20px;margin-top:2px;">
+    				<span th:text="${articleDto.location1}"></span>
+    				<span th:text="${articleDto.location2}"></span>
+    			</p>
+    			<p style="font-size:20px;">
+    				<span th:text="${articleDto.gender}"></span>
+    				<span th:text="${articleDto.age}"></span>
+    				</p>
+    			<p class="post_date" th:text="${articleDto.createdDatetime}"></p>
     		</div>
     	</div>
     </div>
     
     <div class="select_page_container">
-   		<img th:src="@{/img/ic_leftarrow_boardlist.png}" class="boardlist_arrow" style="float:left;margin-right:31px;" />
    		<div class="select_page_numberlist">
-   			<span style="color: #e77474;font-weight:700;">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+   			<img th:src="@{/img/ic_leftarrow_red.png}" class="boardlist_arrow" />
+   			<th:block th:each="num : ${#numbers.sequence(1, (maxNum/9)+1)}">
+   				<span th:text="${num}"></span>
+   			</th:block>
+   			<img th:src="@{/img/ic_rightarrow_red.png}" class="boardlist_arrow"/>
    		</div>
-   		<img th:src="@{/img/ic_rightarrow_boardlist.png}" class="boardlist_arrow" style="float:right;margin-left:31px;"/>
     </div>
     
+    <script>
+    
+    var area = ["전체","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
+    
+    $("select[name^=location1]").each(function() {
+		select_location1 = $(this);
+		$.each(area, function() {
+			select_location1.append("<option value='"+this+"'>"+this+"</option>");
+		});
+	});
+    
+    $.ajax({
+		url : '/api/v1/article/kind',
+		type : 'get',
+		success : function(response, status, xhr){
+			response.forEach(function(kind) {
+				$('.kind_id').each(function(index, item){
+					if( $(item).html()==kind['id'] ) {
+						$(item).html(kind['value']);
+					}
+				})
+				$("select[name^=kind]").append("<option value='"+kind['id']+"'>"+kind['value']+"</option>");
+			});
+		}
+	});
+    
+    $('.select_page_numberlist span').click(function(){
+    	location.href="?page="+$(this).html();
+    })
+    
+    $('.select_page_numberlist span').each(function(index, item){
+    	if(index==0) $(item).attr('class', 'selected_page')
+    	if($(item).html()==window.location.search.replace('?page=', '')) {
+    		$('.select_page_numberlist span').removeAttr('class');
+    		$(item).attr('class', 'selected_page');
+    	}
+    })
+    
+    $('.btn_article_search').click(function(){
+    	location.href=
+    		"?location1="+$('select[name=location1]').val()+
+    		"&kindId="+$('select[name=kind]').val()+
+    		"&gender="+$('select[name=gender]').val()+
+    		"&age="+$('select[name=age]').val()+
+    		"&";
+    })
+    	
+    </script>
     
 </th:block>
 </html>

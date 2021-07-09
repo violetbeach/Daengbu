@@ -37,5 +37,51 @@
             #{articleId}
         );
     </insert>
+    
+    <select id="getArticleList" parameterType="com.violetbeach.daengbu.controller.v1.command.ArticleSearchCommand" resultType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
+		SELECT * FROM article 
+		<where>
+			<if test='location1 != null and location1 != "" and location1 != "전체"'>
+				AND location1 = #{location1}
+			</if>
+			<if test='kindId != null and kindId != ""'>
+				AND kind_id = #{kindId}
+			</if>
+			<if test='gender != null and gender != "" and gender != "전체"'>
+				AND gender = #{gender}
+			</if>
+			<if test='age != null and age != "" and age != "전체"'>
+				AND age = #{age}
+			</if>
+			<if test='authorId != null and authorId != ""'>
+				AND author_id = #{authorId}
+			</if>
+		</where>
+		ORDER BY id ASC;
+	</select>
+	
+	<select id="getArticleImageList" parameterType="com.violetbeach.daengbu.controller.v1.command.ArticleSearchCommand" resultType="com.violetbeach.daengbu.dto.model.article.ArticleImageDto">
+		SELECT * FROM article_image WHERE article_id IN
+		(SELECT id FROM article
+		<where>
+			<if test='location1 != null and location1 != "" and location1 != "전체"'>
+				AND location1 = #{location1}
+			</if>
+			<if test='kindId != null and kindId != ""'>
+				AND kind_id = #{kindId}
+			</if>
+			<if test='gender != null and gender != "" and gender != "전체"'>
+				AND gender = #{gender}
+			</if>
+			<if test='age != null and age != "" and age != "전체"'>
+				AND age = #{age}
+			</if>
+			<if test='authorId != null and authorId != ""'>
+				AND author_id = #{authorId}
+			</if>
+		</where>
+		)
+		GROUP BY article_id ORDER BY article_id ASC;
+	</select>
 	
 </mapper>
