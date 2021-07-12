@@ -9,6 +9,10 @@
 		call findUserByEmail(#{email});
 	</select>
 	
+	<select id="getUsernameById" parameterType="Long" resultType="String">
+		SELECT username FROM user WHERE id=#{id};
+	</select>
+	
 	<select id="getCountByEmail" parameterType="String" resultType="int">
 		call getUserCountByEmail(#{email});
 	</select>

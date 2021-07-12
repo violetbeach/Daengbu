@@ -22,6 +22,7 @@ import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.article.ArticleImageDto;
 import com.violetbeach.daengbu.dto.model.article.ContentDto;
 import com.violetbeach.daengbu.dto.model.article.KindDto;
+import com.violetbeach.daengbu.dto.model.article.WishlistDto;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
@@ -87,4 +88,23 @@ public class ArticleController {
 		return "/";
 	}
 	
+	@PostMapping("/wish")
+	public void addWishlist(Long articleId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		WishlistDto wishlistDto = new WishlistDto()
+				.setUserId(userDto.getId())
+				.setArticleId(articleId);
+		articleService.addWishlist(wishlistDto);
+	}
+	
+	@DeleteMapping("/wish")
+	public void delWishlist(Long articleId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		WishlistDto wishlistDto = new WishlistDto()
+				.setUserId(userDto.getId())
+				.setArticleId(articleId);
+		articleService.delWishlist(wishlistDto);
+	}
 }

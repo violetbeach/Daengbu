@@ -49,4 +49,33 @@ public class ArticleService {
 		return articleRepository.getArticleImageList(articleDto);
 	}
 	
+	public ArticleDto getById(Long id) {
+		return articleRepository.getById(id);
+	}
+	
+	public String getContentByArticleId(Long id) {
+		return articleRepository.getContentByArticleId(id);
+	}
+	
+	public List<Long> getArticleImageByArticleId(Long id) {
+		return articleRepository.getArticleImageByArticleId(id);
+	}
+	
+	public void articleViewCount(Long id) {
+		articleRepository.articleViewCount(id);
+	}
+	
+	public void addWishlist(WishlistDto wishlistDto) {
+		articleRepository.addWishlist(wishlistDto);
+	}
+	
+	public void delWishlist(WishlistDto wishlistDto) {
+		articleRepository.delWishlist(wishlistDto);
+	}
+	
+	public boolean getWishCountById(WishlistDto wishlistDto) {
+		if(articleRepository.getWishCountById(wishlistDto)==0) return false;
+    	else return true;
+	}
+
 }

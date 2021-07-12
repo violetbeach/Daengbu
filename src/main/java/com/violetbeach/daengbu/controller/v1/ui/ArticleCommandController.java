@@ -3,8 +3,11 @@ package com.violetbeach.daengbu.controller.v1.ui;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,6 +15,8 @@ import com.violetbeach.daengbu.controller.v1.command.ArticleSearchCommand;
 import com.violetbeach.daengbu.controller.v1.command.PostFormCommand;
 import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.article.ArticleImageDto;
+import com.violetbeach.daengbu.dto.model.article.WishlistDto;
+import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
 
@@ -65,6 +70,36 @@ public class ArticleCommandController {
 			articleList.get(i).setRepImg(articleImageList.get(i).getId());
 		}
 		modelAndView.addObject("articleList", articleList);
+		return modelAndView;
+	}
+	
+	@GetMapping("/article/{id}")
+	public ModelAndView initArticleDetail(@PathVariable Long id){
+		ModelAndView modelAndView = new ModelAndView("detail");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		articleService.articleViewCount(id);
+		ArticleDto articleDto = articleService.getById(id);
+		modelAndView.addObject("articleDto", articleDto);
+		modelAndView.addObject("author_username", userService.getUsernameById(articleDto.getAuthorId()));
+		modelAndView.addObject("kind", articleService.getKindById(articleDto.getKindId()));
+		modelAndView.addObject("content", articleService.getContentByArticleId(id));
+		modelAndView.addObject("article_image", articleService.getArticleImageByArticleId(id));
+		modelAndView.addObject("author_id", articleDto.getAuthorId());
+		
+		if(auth.getName()!="anonymousUser") {
+			UserDto userDto = userService.findByEmail(auth.getName());
+			
+			if(userDto.getId()==articleDto.getAuthorId()) {
+				modelAndView.addObject("role", "author");
+			}
+			
+			WishlistDto wishlistDto = new WishlistDto()
+					.setUserId(userDto.getId())
+					.setArticleId(id);
+			if(articleService.getWishCountById(wishlistDto)==true) modelAndView.addObject("wish", true);
+			else modelAndView.addObject("wish", false);
+		} else modelAndView.addObject("wish", false);
+		
 		return modelAndView;
 	}
 	

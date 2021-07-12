@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/home">
+<head>
+	<title>게시글</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div th:object="${articleDto}" id="detail_container" style="padding:15px">
+		<p th:text="*{location1}+' '+*{location2}" style="font-size:16px;color:#e77474;margin:0px;"></p>
+		<p th:text="*{title}" style="font-size:30px;margin:0px;"></p>
+		<div class="article_info" style="margin:24px 0">
+			<div style="display:inline-block;">
+				<span th:text="'작성자 : '+${author_username}" style="font-size:18px;font-weight:700;margin-bottom:2px;"></span>
+				<br>
+				<span th:text="*{createdDatetime}" style="font-size:14px;font-weight:700;color:#a0a0a0;margin-right:10px;"></span>
+				<span th:text="'조회 '+*{viewCount}" style="font-size:14px;font-weight:700;color:#a0a0a0;"></span>
+			</div>
+			<img id="btn_message" th:if="${role} != 'author'" th:src="@{/img/btn_message.png}" class="btn_message_detail" />
+			
+			<img class="btn_wish" th:if="${wish}==false" th:src="@{/img/btn_wish_article.png}" style="float:right;margin-top:10px;" />
+			<img class="btn_wish_cancel" th:if="${wish}==false" th:src="@{/img/btn_wished_article.png}" style="float:right;margin-top:10px;display:none;" />
+			<img class="btn_wish" th:if="${wish}==true" th:src="@{/img/btn_wish_article.png}" style="float:right;margin-top:10px;display:none;" />
+			<img class="btn_wish_cancel" th:if="${wish}==true" th:src="@{/img/btn_wished_article.png}" style="float:right;margin-top:10px;" />
+		
+		</div>
+		<div style="border:solid 1px #c0c0c0;margin-bottom:20px;"></div>
+		<table class="article_info">
+			<tr><td>지역</td><td th:text="*{location1}+' '+*{location2}"></td></tr>
+			<tr><td>견종</td><td th:text="${kind}"></td></tr>
+			<tr><td>성별</td><td th:text="*{gender}"></td></tr>
+			<tr><td>나이</td><td th:text="*{age}"></td></tr>
+		</table>
+		<div style="border:solid 1px #c0c0c0;margin:20px 0;"></div>
+		
+		<div class="slider-1">
+			<div class="slides">
+				<div th:each="image: ${article_image}" th:style="'background-image:url(/img/post/' + ${image} + '.png);'"></div>
+			</div>
+			<div class="page-btns">
+				<div th:each="image: ${article_image}"></div>
+			</div>
+			<div class="side-btns">
+				<div>
+					<span><i class="fas fa-angle-left"></i></span>
+				</div>
+				<div>
+					<span><i class="fas fa-angle-right"></i></span>
+				</div>
+			</div>
+		</div>
+		<div style="border:solid 1px #c0c0c0;margin:20px 0;"></div>
+		<p th:text="${content}" style="margin:32px 0;font-size:16px;"></p>
+		
+		<button th:if="${role} == 'author'" id="btn_update_article" class="btn_sub_handler" style="width:54px;margin-right:10px;">수정</button>
+		<button th:if="${role} == 'author'" id="btn_delete_article" class="btn_sub_handler" style="width:54px;">삭제</button>
+		<button onclick="moveTop()" class="btn_sub_handler" style="float:right;width:70px;margin-right:-10px;">▲TOP</button>
+		<a th:href="@{/}"><button class="btn_sub_handler" style="float:right;width:54px;margin-right:10px;">목록</button></a>
+	</div>
+    
+    <script th:inline="javascript">
+    
+    $(document).ready(function(){
+    	
+    	$('.slides div:first').attr('class', 'active');
+    	$('.page-btns div:first').attr('class', 'active');
+    	
+    	if($('.slides div').length<2) {
+    		$('.page-btns').css('display', 'none');
+    		$('.side-btns').css('display', 'none');
+    	}
+    	
+    	// 기존 버튼형 슬라이더
+    	$('.slider-1 > .page-btns > div').click(function(){
+    		var $this = $(this);
+    	    var index = $this.index();
+    	    $this.addClass('active');
+    	    $this.siblings('.active').removeClass('active');
+    	    var $slider = $this.parent().parent();
+    	    var $current = $slider.find(' > .slides > div.active');
+    	    var $post = $slider.find(' > .slides > div').eq(index);
+    	    $current.removeClass('active');
+    	    $post.addClass('active');
+    	});
+
+    	// 좌/우 버튼 추가 슬라이더
+    	$('.slider-1 > .side-btns > div').click(function(){
+    	    var $this = $(this);
+    	    var $slider = $this.closest('.slider-1');
+    	    var index = $this.index();
+    	    var isLeft = index == 0;
+    	    var $current = $slider.find(' > .page-btns > div.active');
+    	    var $post;
+    	    if ( isLeft ){
+    	        $post = $current.prev();
+    	    }
+    	    else {
+    	        $post = $current.next();
+    	    };
+    	    if ( $post.length == 0 ){
+    	        if ( isLeft ){
+    	            $post = $slider.find(' > .page-btns > div:last-child');
+    	        }
+    	        else {
+    	            $post = $slider.find(' > .page-btns > div:first-child');
+    	        }
+    	    };
+    	    $post.click();
+    	});
+    	
+    	$('.btn_wish').click(function(){
+    		$.ajax({
+                url: "/api/v1/article/wish",
+                method: "post",
+                data: { articleId: window.location.pathname.replace('/article/', '')},
+                success: function (data) {
+                	$('.btn_wish').css('display', 'none');
+                	$('.btn_wish_cancel').css('display', 'block');
+                },
+                error: function(req, status, error){
+                	if(req.status==401) location.href = "/login";
+                }
+            })
+    	})
+    	
+    	$('.btn_wish_cancel').click(function(){
+    		$.ajax({
+                url: "/api/v1/article/wish",
+                method: "delete",
+                data: { articleId: window.location.pathname.replace('/article/', '')},
+                success: function (data) {
+                	$('.btn_wish_cancel').css('display', 'none');
+                	$('.btn_wish').css('display', 'block');
+                },
+                error: function(req, status, error){
+                	if(req.status==401) location.href = "/login";
+                }
+            })
+    	})
+    	
+    })
+    
+    function moveTop(){
+		document.documentElement.scrollTop = 0;
+	}
+    
+    </script>
+    
+</th:block>
+</html>

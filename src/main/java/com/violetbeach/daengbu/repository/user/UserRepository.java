@@ -11,5 +11,6 @@ public interface UserRepository {
 	int getCountByEmail(String email);
 	int getCountByUsername(String userName);
 	void regist(UserDto userDto);
+	String getUsernameById(Long id);
 	
 }

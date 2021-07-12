@@ -60,6 +60,10 @@
 		ORDER BY id ASC;
 	</select>
 	
+	<select id="getById" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
+		SELECT * FROM article WHERE id = #{id};
+	</select>
+	
 	<select id="getArticleImageList" parameterType="com.violetbeach.daengbu.controller.v1.command.ArticleSearchCommand" resultType="com.violetbeach.daengbu.dto.model.article.ArticleImageDto">
 		SELECT * FROM article_image WHERE article_id IN
 		(SELECT id FROM article
@@ -83,5 +87,36 @@
 		)
 		GROUP BY article_id ORDER BY article_id ASC;
 	</select>
+	
+	<select id="getContentByArticleId" parameterType="Long" resultType="String">
+		SELECT text FROM content WHERE article_id = #{id};
+	</select>
+	
+	<select id="getArticleImageByArticleId" parameterType="Long" resultType="Long">
+		SELECT * FROM article_image WHERE article_id = #{id};
+	</select>
+	
+	<update id="articleViewCount" parameterType="Long">
+		UPDATE article SET view_count = view_count + 1 WHERE id = #{id};
+	</update>
+	
+	<insert id="addWishlist" parameterType="com.violetbeach.daengbu.dto.model.article.WishlistDto">
+        INSERT INTO wishlist
+        (
+            user_id, article_id, datetime
+        )
+        VALUES
+        (
+            #{userId}, #{articleId}, NOW()
+        );
+    </insert>
+    
+    <select id="getWishCountById" parameterType="com.violetbeach.daengbu.dto.model.article.WishlistDto" resultType="int">
+		SELECT COUNT(*) FROM wishlist WHERE user_id = #{userId} AND article_id = #{articleId};
+	</select>
+	
+	<delete id="delWishlist" parameterType="com.violetbeach.daengbu.dto.model.article.WishlistDto">
+		DELETE FROM wishlist WHERE user_id = #{userId} AND article_id = #{articleId};
+	</delete>
 	
 </mapper>

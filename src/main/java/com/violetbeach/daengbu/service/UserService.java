@@ -52,6 +52,10 @@ public class UserService {
     		throw exception(DtoType.USER, ExceptionType.DUPLICATE_DTO, userDto.getEmail());
     	}
     }
+    
+    public String getUsernameById(Long id) {
+    	return userRepository.getUsernameById(id);
+    }
 
     private RuntimeException exception(DtoType dtoType, ExceptionType exceptionType, String... args) {
         return CustomException.throwException(dtoType, exceptionType, args);
