@@ -119,4 +119,15 @@
 		DELETE FROM wishlist WHERE user_id = #{userId} AND article_id = #{articleId};
 	</delete>
 	
+	<select id="getWishArticleList" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
+		SELECT * FROM article WHERE id IN
+			(SELECT article_id FROM wishlist WHERE user_id = #{id});
+	</select>
+	
+	<select id="getWishArticleImageList" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleImageDto">
+		SELECT * FROM article_image WHERE article_id IN
+			(SELECT article_id FROM wishlist WHERE user_id = #{id})
+		GROUP BY article_id;
+	</select>
+	
 </mapper>

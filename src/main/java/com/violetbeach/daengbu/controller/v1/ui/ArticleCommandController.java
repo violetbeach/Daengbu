@@ -103,4 +103,70 @@ public class ArticleCommandController {
 		return modelAndView;
 	}
 	
+	@GetMapping("/article/my")
+	public ModelAndView initMyArticleList(@RequestParam(value="page", required=false) String page){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto=userService.findByEmail(auth.getName());
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addObject("board_name", "내 게시판");
+		ArticleDto articleDto = new ArticleDto()
+				.setAuthorId(userDto.getId());
+		List<ArticleDto> articleList = articleService.getArticleList(articleDto);
+		List<ArticleImageDto> articleImageList = articleService.getArticleImageList(articleDto);
+		modelAndView.addObject("maxNum",articleList.size());
+		for(int i = 0; i<articleList.size(); i++) {
+			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+		}
+		try {
+			int p = Integer.parseInt(page);
+			if(articleList.size()<p*9) {
+				articleList=articleList.subList((p*9)-9, (p*9)-9+articleList.size()%9);
+			}
+			else {
+				articleList=articleList.subList((p*9)-9, p*9);
+			}
+		} catch(NumberFormatException e) {
+			if(articleList.size()<9) {
+				articleList=articleList.subList(0, articleList.size());
+			}
+			else {
+				articleList=articleList.subList(0, 9);
+			}
+		}
+		modelAndView.addObject("articleList", articleList);
+		return modelAndView;
+	}
+	
+	@GetMapping("/article/wish")
+	public ModelAndView initWishArticleList(@RequestParam(value="page", required=false) String page){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto=userService.findByEmail(auth.getName());
+		ModelAndView modelAndView = new ModelAndView("index");
+		modelAndView.addObject("board_name", "관심 게시판");
+		List<ArticleDto> articleList = articleService.getWishArticleList(userDto.getId());
+		List<ArticleImageDto> articleImageList = articleService.getWishArticleImageList(userDto.getId());
+		modelAndView.addObject("maxNum",articleList.size());
+		for(int i = 0; i<articleList.size(); i++) {
+			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+		}
+		try {
+			int p = Integer.parseInt(page);
+			if(articleList.size()<p*9) {
+				articleList=articleList.subList((p*9)-9, (p*9)-9+articleList.size()%9);
+			}
+			else {
+				articleList=articleList.subList((p*9)-9, p*9);
+			}
+		} catch(NumberFormatException e) {
+			if(articleList.size()<9) {
+				articleList=articleList.subList(0, articleList.size());
+			}
+			else {
+				articleList=articleList.subList(0, 9);
+			}
+		}
+		modelAndView.addObject("articleList", articleList);
+		return modelAndView;
+	}
+	
 }

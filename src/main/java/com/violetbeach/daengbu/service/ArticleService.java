@@ -78,4 +78,12 @@ public class ArticleService {
     	else return true;
 	}
 
+	public List<ArticleDto> getWishArticleList(Long id) {
+		return articleRepository.getWishArticleList(id);
+	}
+	
+	public List<ArticleImageDto> getWishArticleImageList(Long id) {
+		return articleRepository.getWishArticleImageList(id);
+	}
+	
 }
