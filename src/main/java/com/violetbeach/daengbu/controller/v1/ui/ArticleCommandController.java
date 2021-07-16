@@ -169,4 +169,25 @@ public class ArticleCommandController {
 		return modelAndView;
 	}
 	
+	@GetMapping("/article/{id}/modify")
+	public ModelAndView initUpdateForm(@PathVariable Long id){
+		ModelAndView modelAndView = new ModelAndView("article_write");
+		ArticleDto articleDto = articleService.getById(id);
+		PostFormCommand postFormCommand = new PostFormCommand()
+				.setArticleId(id)
+				.setAge(articleDto.getAge())
+				.setGender(articleDto.getGender())
+				.setLocation1(articleDto.getLocation1())
+				.setLocation2(articleDto.getLocation2())
+				.setKindId(articleDto.getKindId())
+				.setTitle(articleDto.getTitle())
+				.setText(articleService.getContentByArticleId(id));
+			
+		modelAndView.addObject("postFormCommand", postFormCommand);
+		modelAndView.addObject("kind", articleService.getKindById(articleDto.getKindId()));
+		modelAndView.addObject("articleImageList", articleService.getArticleImageByArticleId(id));
+		
+		return modelAndView;
+	}
+	
 }

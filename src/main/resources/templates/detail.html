@@ -139,6 +139,26 @@
             })
     	})
     	
+    	$('#btn_delete_article').click(function(){
+    		if(confirm("게시글을 삭제하시겠습니까?")) {
+    			$.ajax({
+                    url: "/api/v1/article",
+                    method: "delete",
+                    data: { id: window.location.pathname.replace('/article/', '')},
+                    success: function (data) {
+                    	location.href = "/";
+                    },
+                    error: function(req, status, error){
+                    	if(req.status==401) location.href = "/login";
+                    }
+                })
+    		}
+    	})
+    	
+    	$('#btn_update_article').click(function(){
+    		location.href = window.location.pathname + "/modify"
+    	})
+    	
     })
     
     function moveTop(){

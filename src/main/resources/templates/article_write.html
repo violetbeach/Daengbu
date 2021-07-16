@@ -72,6 +72,11 @@
 	</div>
     
     <script th:inline="javascript">
+    let id =/*[[ ${postFormCommand.articleId} ]]*/;
+    let location1 =/*[[ ${postFormCommand.location1} ]]*/;
+	let location2 =/*[[ ${postFormCommand.location2} ]]*/;
+	let kind_id =/*[[ ${postFormCommand.kindId} ]]*/;
+	let article_image_list =/*[[ ${articleImageList} ]]*/;
 	
  	// 글쓰기 이미지 미리보기, 배열에 저장
     var files = new Array();
@@ -141,6 +146,27 @@
     	})
     })
     
+    $('#btn_modify_submit').click(function(){
+    	var formData = new FormData($('#form')[0]);
+    	for (var i = 0; i < files.length; i++){
+    		formData.append("images", files[i])
+    		formData.append("articleId", id);
+    	}
+    	$.ajax({
+    		url : '/api/v1/article',
+    		type : 'put',
+    		data : formData,
+    		cache : false,
+    		contentType : false,
+    		processData : false,
+    		error : function(){
+    		},
+    		success : function(data){
+    			location.href=data.metadata;
+    		}
+    	})
+    })
+    
     $(document).ready(function(){
     	
     	// 지역 선택
@@ -196,6 +222,49 @@
 				if(kind_id != null) $("select[name^=kindId]").val(kind_id);
 			}
 		});
+   		
+   		if(article_image_list != null) {
+   			for(var i=0; i<article_image_list.length; i++) {
+   				const url = "/img/post/"+article_image_list[i]+".png";
+   				const start = async function(a, b){
+   					const file = await getFileFromUrl(url, article_image_list[i]+'.png');
+   					files.push(file)
+   					
+   					if(files.length!=0) $('#upload_placeholder').hide();
+   	    			else $('#upload_placeholder').show();
+   	    			if(files.length!=0 && files.length<=4){
+   	    				$('#btn_add_image').css("display","inline-block");
+   	    				$(".upload_img").attr('disabled', false);
+   	    			} else {
+   	    				$('#btn_add_image').css("display","none");
+   	    				$(".upload_img").attr('disabled', true);
+   	    			}
+
+   				}
+   				start();
+   				var div = document.createElement("div");
+    			div.setAttribute("class", "preview_box");
+    			var img = document.createElement("img");
+    			img.setAttribute("src", "/img/post/"+article_image_list[i]+".png");
+    			img.setAttribute("class", "img_preview");
+    			$(div).append(img);
+    			
+    			var btn_cancel = document.createElement("img");
+    			btn_cancel.setAttribute("src", "/img/ic_upload_img_cancel.png");
+    			btn_cancel.setAttribute("class", "btn_upload_cancel");
+    			$(div).append(btn_cancel);
+    			$(btn_cancel).click(function(){
+    				console.log($(this).parent().index());
+    				files.splice($(this).parent().index(), 1);
+    				$(this).parent().remove();
+    			});
+    			
+    			$("div#img_list").append(div);
+    			
+    			console.log(files)
+    			
+   			}
+   		}
     	
     	// 이미지 업로드
     	$("#upload_placeholder").click(function(){
@@ -207,6 +276,14 @@
     	});
     	
     })
+    
+    async function getFileFromUrl(url, name, defaultType = 'image/png'){
+    	const response = await fetch(url);
+    	const data = await response.blob();
+    	return new File([data], name, {
+    		type: response.headers.get('content-type') || defaultType,
+    	});
+    }
     
     </script>
     

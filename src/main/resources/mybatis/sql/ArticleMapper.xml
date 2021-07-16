@@ -130,4 +130,21 @@
 		GROUP BY article_id;
 	</select>
 	
+	<delete id="delArticle" parameterType="Long">
+		DELETE FROM article WHERE id = #{id};
+	</delete>
+	
+	<delete id="delArticleImage" parameterType="Long">
+		DELETE FROM article_image WHERE article_id = #{id};
+	</delete>
+	
+	<update id="updateArticle" parameterType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
+        UPDATE article SET kind_id = #{kindId}, location1 = #{location1}, location2 = #{location2}
+        	,age = #{age}, gender = #{gender}, title = #{title} WHERE id = #{id};
+    </update>
+    
+    <update id="updateText" parameterType="com.violetbeach.daengbu.dto.model.article.ContentDto">
+        UPDATE content SET text = #{text} WHERE article_id = #{articleId};
+    </update>
+	
 </mapper>

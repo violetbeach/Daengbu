@@ -26,4 +26,8 @@ public interface ArticleRepository {
 	void delWishlist(WishlistDto wishlistDto);
 	List<ArticleDto> getWishArticleList(Long id);
 	List<ArticleImageDto> getWishArticleImageList(Long id);
+	void delArticle(Long id);
+	void delArticleImage(Long id);
+	void updateArticle(ArticleDto articleDto);
+	void updateText(ContentDto contentDto);
 }

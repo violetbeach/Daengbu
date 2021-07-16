@@ -86,4 +86,25 @@ public class ArticleService {
 		return articleRepository.getWishArticleImageList(id);
 	}
 	
+	public void delArticle(Long id) {
+		articleRepository.delArticle(id);
+	}
+	
+	public void addArticleImage(List<ArticleImageDto> listImageDto) {
+		for(ArticleImageDto imageDto : listImageDto) {
+			articleRepository.postImage(imageDto);
+		}
+	}
+	
+	public void delArticleImage(Long articleId) {
+		articleRepository.delArticleImage(articleId);
+	}
+	
+	public void updateArticle(ArticleDto articleDto) {
+		articleRepository.updateArticle(articleDto);
+	}
+	public void updateText(ContentDto contentDto) {
+		articleRepository.updateText(contentDto);
+	}
+	
 }
