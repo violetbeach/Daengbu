@@ -54,6 +54,17 @@
     		});
     	});
     	
+    	// 카카오 로그인
+    	$("#btn_kakao_login").click(function(){
+    		$.ajax({
+    			url: '/oauth2/outhorization/kakao',
+    			type : 'get',
+    			success : function(response, status, xhr){
+    				window.location = xhr.getResponseHeader('Location');
+    			}
+    		});
+    	});
+    	
     })
     </script>
 </th:block>

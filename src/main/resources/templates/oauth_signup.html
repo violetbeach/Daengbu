@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+
+<head>
+	<title>소셜 로그인</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div id="oauth_signup_container">
+		<p style="font-size:24px;font-weight:700;color:#a0a0a0;text-align:center">개인정보 입력</p>
+		<div style="width:500px;border:solid 1px #c6c6c6;margin-bottom:46.6px;"></div>
+		<p style="font-size:22px;font-weight:bold;color:#000000;margin:8px 0;">이메일</p>
+		<input id="input_email" class="input_info" th:value="${email}" type="text" name="email" autocomplete="off" disabled/>
+		<p style="font-size:22px;font-weight:bold;color:#000000;margin:40px 0 0 0;">닉네임</p>
+		<p style="font-size:16px;margin:4px;">최대 16자까지 입력합니다.</p>
+		<input id="input_username" class="input_info" type="text" name="username" maxlength="15" autocomplete="off" placeholder="사용할 닉네임을 입력하세요"/>
+		<p id="valid_username" class="valid_warning"></p>
+		<input id="btn_signup_submit" class="btn_input_info_submit" type="button" style="margin-top:84px;font-size:20px;" value="계정 생성"/>
+	</div>	
+	
+	<script>
+	
+	$(document).ready(function(){
+		
+		var usernamePattern = RegExp(/\s/g);
+		var valid = false;
+		
+		$("#input_username").focusin(function(){
+			valid = false;
+		});
+		
+		$("#input_username").focusout(function(){
+			if($("#input_username").val().trim()=="") $("#valid_username").text("필수 정보입니다.");
+			else{
+				$.ajax({
+					async : true,
+					url: "/api/v1/user/check-dup-username?username="+$("#input_username").val(),
+					type : 'get',
+					contentType: "application/json; charset=UTF-8",
+					success: function(data, status){
+						if(data.payload==true) $("#valid_username").text("이미 사용중인 닉네임입니다.");
+						else if(usernamePattern.test($("#input_username").val())) $("#valid_username").text("공백은 사용할 수 없습니다.");
+						else if($("#input_username").val().length<2) $("#valid_username").text("2~16자만 사용 가능합니다.");
+						else{
+							$("#valid_username").text("");
+							valid = true;
+						}
+					},
+					error: function(request, error){
+						alert(request, error);
+					}
+				});
+			}
+		});
+    	
+    	$("#btn_signup_submit").click(function(){
+    		if(valid==false) {
+    			alert("올바른 닉네임을 입력해주세요.")
+    		} else {
+    			$.ajax({
+    				url: '/oauth2/user',
+    				type : 'post',
+    				data : JSON.stringify({
+    					email : $("#input_email").val(),
+    					username : $("#input_username").val()
+    				}),
+    				contentType: 'application/json; charset=UTF-8',
+    				success : function(response, status, xhr){
+    					window.location = '/';
+    				},
+    				error: function(request, status, error){
+    				}
+    			});
+    		
+    		}
+    	});
+    	
+	})
+	
+	</script>
+</th:block>
+</html>

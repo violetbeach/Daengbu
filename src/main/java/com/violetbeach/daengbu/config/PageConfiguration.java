@@ -12,6 +12,7 @@ public class PageConfiguration implements WebMvcConfigurer{
 		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/login").setViewName("login");
 		registry.addViewController("/signup").setViewName("signup");
+		registry.addViewController("/oauth/signup").setViewName("oauth_signup");
 		registry.addViewController("/naming").setViewName("naming");
 	}
 	
