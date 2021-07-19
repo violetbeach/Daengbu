@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+	<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">댕부</title>
+    <!-- 공통 헤드-->
+    <th:block th:replace="fragments/head :: headFragment"></th:block>
+    <style>body{-ms-overflow-style:none;} ::-webkit-scrollbar{display:none;}</style>
+</head>
+
+    <body>
+        <!-- 몸체 -->
+        <th:block layout:fragment="content"></th:block>
+        <!-- 공통 스크립트-->
+        <th:block th:replace="fragments/script :: scriptFragment"></th:block>
+    </body>
+</html>

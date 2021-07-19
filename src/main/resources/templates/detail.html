@@ -159,6 +159,20 @@
     		location.href = window.location.pathname + "/modify"
     	})
     	
+    	$('#btn_message').click(function(){
+    		$.ajax({
+                url: "/api/v1/chat/room",
+                method: "post",
+                data: { authorId: /*[[ ${author_id} ]]*/ },
+                success: function (data) {
+                	window.open(data.payload, '', 'width=360, height=580');
+                },
+                error: function(req, status, error){
+                	if(req.status==401) location.href = "/login";
+                }
+            })
+    	})
+    	
     })
     
     function moveTop(){

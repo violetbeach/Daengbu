@@ -1038,6 +1038,88 @@ button#btn_post:focus {
     left: auto;
     right: 20px;
 }
+#chat_container {
+	text-align: center;
+}
+#chat_container .top_bar {
+	display: table-cell;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	width: 100vw;
+	height: 45px;
+	padding: 8px 12px;
+	margin: 0px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: 700;
+	color: #ffffff;
+	background-color: var(--dark-pink);
+}
+#chat_container .bottom_bar {
+	display: table-cell;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100vw;
+	height: 48px;
+	padding: 6px 10px;
+	margin: 0px;
+	box-shadow: 0 5px 60px 0 rgba(0, 0, 0, 0.2);
+	background-color: white;
+}
+#chat_container .input_container {
+	width: 304px;
+	height: 36px;
+	display: flex;
+	align-items: center;
+	float: left;
+	border-radius: 17px;
+	background-color: #f5f6f7;
+}
+#chat_container #message_text {
+	width: 268px;
+	float: left;
+	border: 0px;
+	padding-left: 20px;
+	background-color: #f5f6f7;
+}
+#chat_container .chat_list_box {
+	height: 68px;
+	padding: 12px;
+	text-align: left;
+	border-bottom: solid 1px #e4e4e4;
+	cursor: pointer;
+}
+#chat_container .message {
+	display: inline-block;
+	height: 30px;
+	font-size: 11px;
+	text-align: center;
+	line-height: 2px;
+	padding: 14px;
+	border-radius: 5px;
+	background-color: pink;
+}
+#chat_container .my {
+	float: right;
+	margin-left: 8px;
+	color: #ffffff;
+	background-color: var(--dark-pink);
+}
+#chat_container .other {
+	float: left;
+	margin-right: 8px;
+	color: #000000;
+	background-color: #ffffff;
+}
+#chat_container .message_datetime {
+	margin-top: 12px;
+	font-size: 8px;
+	color: #a0a0a0;
+}
 #oauth_signup_container {
 	width: 500px;
 	margin: 0px auto;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/no_layout">
+<head>
+	<title>댕톡</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div id="chat_container">
+		<div class="top_bar">댕톡</div>
+		<p th:if="${chatListDto.size}==0" style="margin-top:280px;">참여 중인 댕톡이 없습니다.</p>
+		<div style="margin-top:45px;">
+			<div th:onclick="'location.href=\'/chat/'+ @{${chat.roomId}} + '\''" class="chat_list_box" th:each="chat, i : ${chatListDto}">
+				<span th:text="${otherUserList[i.index]}" style="font-size:14px;font-weight:700;color:#000000;"></span>
+				<span th:text="${chat.datetime}" style="float:right;font-size:10px;color:#a0a0a0;"></span>
+				<br>
+				<span th:text="${chat.message}" style="font-size:12px;font-weight:700;color:#a0a0a0;">안녕</span>
+				<div th:if="${unreadMessageCountList[i.index]}!=0" th:text="${unreadMessageCountList[i.index]}" style="float:right;width:24px;height:24px;background-color:#e77474;font-weight:700;color:#ffffff;text-align:center;border-radius:12px;"></div>
+			</div>
+		</div>
+	</div>
+    
+    <script>
+    </script>
+    
+</th:block>
+</html>

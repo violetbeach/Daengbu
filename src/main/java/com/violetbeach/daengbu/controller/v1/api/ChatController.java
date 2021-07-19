@@ -1,0 +1,62 @@
+package com.violetbeach.daengbu.controller.v1.api;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.violetbeach.daengbu.dto.model.chat.ChatDto;
+import com.violetbeach.daengbu.dto.model.chat.RoomDto;
+import com.violetbeach.daengbu.dto.model.user.UserDto;
+import com.violetbeach.daengbu.dto.response.Response;
+import com.violetbeach.daengbu.dto.response.Response.Status;
+import com.violetbeach.daengbu.service.ChatService;
+import com.violetbeach.daengbu.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RestController
+@SuppressWarnings("rawtypes")
+@RequestMapping("/api/v1/chat")
+public class ChatController {
+	
+	
+	@Autowired
+	private ChatService chatService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@PostMapping
+	public Response createMessage(Long roomId, String message) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		ChatDto chatDto = new ChatDto()
+				.setRoomId(roomId)
+				.setUserId(userDto.getId())
+				.setMessage(message);
+		chatService.addChat(chatDto);
+		return Response.ok();
+	}
+	
+	@PostMapping("/room")
+	public Response createRoom(Long authorId) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		Long id = chatService.getByUserId(userDto.getId(), authorId);
+		if(id!=null) {
+			return Response.ok().setPayload("/chat/" + id);
+		} else {
+			RoomDto roomDto = new RoomDto();
+			chatService.createRoom(roomDto);
+			chatService.addUser(roomDto.getId(), userDto.getId());
+			chatService.addUser(roomDto.getId(), authorId);
+			return Response.ok().setPayload("/chat/" + roomDto.getId());
+		}
+	}
+		
+}
