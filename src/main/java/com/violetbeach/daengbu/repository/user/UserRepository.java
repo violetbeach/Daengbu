@@ -12,5 +12,6 @@ public interface UserRepository {
 	int getCountByUsername(String userName);
 	void regist(UserDto userDto);
 	String getUsernameById(Long id);
-	
+	void addMailAuth(String email, String auth);
+	String getMailAuthByEmail(String email);
 }

@@ -56,6 +56,15 @@ public class UserService {
     public String getUsernameById(Long id) {
     	return userRepository.getUsernameById(id);
     }
+    
+    public void addMailAuth(String email, String Auth) {
+    	userRepository.addMailAuth(email, Auth);
+    }
+    
+    public String getMailAuthByEmail(String email) {
+    	return userRepository.getMailAuthByEmail(email);
+    }
+    
 
     private RuntimeException exception(DtoType dtoType, ExceptionType exceptionType, String... args) {
         return CustomException.throwException(dtoType, exceptionType, args);

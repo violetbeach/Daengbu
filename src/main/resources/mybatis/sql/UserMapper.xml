@@ -31,5 +31,15 @@
             #{email}, #{password}, #{username}, #{tel}, NOW(), #{registerIp}
         );
     </insert>
+    
+    <insert id="addMailAuth" parameterType="String">
+    	INSERT INTO email_auth (email, auth)
+    	VALUES (#{email}, #{auth})
+    	ON DUPLICATE KEY UPDATE email = #{email}, auth = #{auth};
+    </insert>
+    
+    <select id="getMailAuthByEmail" parameterType="String" resultType="String">
+		SELECT auth FROM email_auth WHERE email = #{email};
+	</select>
 	
 </mapper>

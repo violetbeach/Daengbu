@@ -1,11 +1,17 @@
 package com.violetbeach.daengbu.controller.v1.api;
 
+import java.util.Random;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -34,6 +40,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 	
 	@GetMapping("/me")
 	public Response findByToken(Model model) {
@@ -87,6 +96,31 @@ public class UserController {
 		ModelAndView modelAndView = new ModelAndView("signup_result");
 		modelAndView.addObject("username", signupFormCommand.getUsername());
 		return modelAndView;
+	}
+	
+	@PostMapping("/email-auth")
+	public Response sendMail(String mail) throws Exception {
+		MimeMessage message = javaMailSender.createMimeMessage();
+		message.addRecipients(RecipientType.TO, mail);
+		String key = "";
+		Random random = new Random();
+		for(int i = 0; i < 3; i++) {
+			key += (char)(random.nextInt(25) + 65);
+		}
+		key += random.nextInt(9999) + 1000;
+		message.setFrom(new InternetAddress("reply@daengbu.co.kr", "댕부"));
+		message.setSubject("DaengBu 인증번호가 도착했습니다.");
+		message.setText("인증번호 : " + key);
+		userService.addMailAuth(mail, key);
+		javaMailSender.send(message);
+		return Response.ok();
+	}
+	
+	@GetMapping("/email-auth")
+	public Response emailAuth(String mail, String auth) throws Exception {
+		if(userService.getMailAuthByEmail(mail).equals(auth)) {
+			return Response.ok();
+		} else return Response.notFound().setPayload("인증번호가 정확하지 않습니다.");
 	}
 	
 }
