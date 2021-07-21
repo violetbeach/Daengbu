@@ -14,6 +14,10 @@ public class PageConfiguration implements WebMvcConfigurer{
 		registry.addViewController("/signup").setViewName("signup");
 		registry.addViewController("/oauth/signup").setViewName("oauth_signup");
 		registry.addViewController("/naming").setViewName("naming");
+		registry.addViewController("/change-password").setViewName("change_password");
+		registry.addViewController("/id-inquiry").setViewName("id_inquiry");
+		registry.addViewController("/pw-inquiry").setViewName("pw_inquiry");
+		
 	}
 	
 }

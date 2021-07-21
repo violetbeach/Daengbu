@@ -65,6 +65,18 @@ public class UserService {
     	return userRepository.getMailAuthByEmail(email);
     }
     
+    public void changePassword(UserDto userDto, String newPassword) {
+    	userDto.setPassword(bCryptPasswordEncoder.encode(newPassword));
+    	userRepository.changePassword(userDto);
+    }
+    
+    public boolean isMatch(String target, String password) {
+    	return bCryptPasswordEncoder.matches(target, password);
+    }
+    
+    public String getEmailByTel(String tel) {
+    	return userRepository.getEmailByTel(tel);
+    }
 
     private RuntimeException exception(DtoType dtoType, ExceptionType exceptionType, String... args) {
         return CustomException.throwException(dtoType, exceptionType, args);

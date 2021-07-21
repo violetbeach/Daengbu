@@ -42,4 +42,12 @@
 		SELECT auth FROM email_auth WHERE email = #{email};
 	</select>
 	
+	<update id="changePassword" parameterType="com.violetbeach.daengbu.dto.model.user.UserDto">
+		UPDATE user SET password = #{password} WHERE id = #{id};
+	</update>
+	
+	<select id="getEmailByTel" parameterType="String" resultType="String">
+		SELECT email FROM user WHERE tel = #{tel};
+	</select>
+	
 </mapper>

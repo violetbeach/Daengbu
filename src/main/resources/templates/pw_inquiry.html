@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+	<title>비밀번호 찾기</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div id="login_container">
+		<p style="font-size:32px;font-weight:800;margin-top:73.5px;margin-bottom:48.5px">비밀번호 찾기</p>
+		
+		<div id="fragment">
+		<div th:if="${pw_result}==null">
+			<p style="font-size:14px;float:left;color:#000000;margin-bottom:48px;"> * 비밀번호를 찾고자 하는 계정의 이메일을 입력해 주세요. </p>
+			<p style="clear:both;font-size:20px;color:#000000;float:left;font-weight:700;padding-left:9.5px;">이메일</p>
+			<input id="input_email" type="text" class="input_info" autocomplete="off" maxlength="30" placeholder="이메일 입력" style="clear:both;float:left;width:337px;"/>
+			<input id="btn_get_auth" class="btn_emailauth" type="button" value="인증번호 받기" />
+    		<input id="input_auth" class="input_info" placeholder="인증번호를 입력하세요" type="text" maxlength="7" style="margin-top:12px;margin-bottom:82.5px;" disabled/>
+			<a th:href="@{/}"><button id="btn_write_cancel" type="button" style="margin-left:76px;margin-bottom:128.5px;">취소</button></a>
+    		<input id="btn_submit"  class="btn_write_submit" type="button" value="제출" style="margin-right:70px;"/> 
+    	</div>
+    	<div th:if="${pw_result}!=null">
+    		<p style="font-size:14px;float:left;color:#000000;margin-bottom:49.5px;"> * 찾으시는 계정의 임시 비밀번호입니다. </p>
+			<div style="width:500px;height:136px;float:left;border:solid 1px #b2b2b2;margin-bottom:110px;">
+				<p th:text="${pw_result}" style="font-size:18px;color:#000000;margin-top:51px;font-weight:700;"></p>
+			</div>
+			<a th:href="@{/}"><button id="btn_write_cancel" type="button" style="margin-left:76px;margin-bottom:158.5px;">홈으로</button></a>
+    		<a th:href="@{/login}"><button class="btn_write_submit" type="button" style="margin-right:70px;">로그인</button></a>
+    	</div>
+    	</div>
+    </div>
+    
+    <script>
+    $(document).ready(function(){
+    	
+    	$("#btn_get_auth").click(function(){
+			if($("#input_email").val().trim()=="") alert("이메일을 입력하세요.");
+			else alert("인증번호를 발송했습니다.");
+			$.ajax({
+				url : '/api/v1/user/email-auth',
+				type : 'post',
+				data : { mail: $('#input_email').val() },
+				dataType : 'json'
+			});
+			$('#input_auth').attr("disabled", false);
+		})
+    	
+    	$("#btn_submit").click(function(){
+    		$.ajax ({
+	        	url : window.location.pathname + '/result',
+	        	type : 'post',
+	        	data : { mail: $('#input_email').val(),
+	        			 auth: $('#input_auth').val() },
+	        	cache : false,
+	        	success : function (html) {
+	        		$("#fragment").replaceWith(html);
+	        	}
+	    	});
+    	});
+    	
+    })
+    </script>
+</th:block>
+</html>

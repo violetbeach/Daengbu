@@ -439,6 +439,18 @@ div#signup_container .valid_warning {
     color: #707070;
     text-decoration: none;
 }
+#login_container a:link {
+    color: #707070;
+    text-decoration: none;
+}
+#login_container a:visited {
+    color: #707070;
+    text-decoration: none;
+}
+#login_container a:hover {
+    color: #707070;
+    text-decoration: none;
+}
 #side_login #btn_login_handler {
     width: 259px;
     height: 55px;

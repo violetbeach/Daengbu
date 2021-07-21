@@ -13,8 +13,8 @@
 		<input id="input_password" type="password" class="input_info" maxlength="16" placeholder="비밀번호" style="margin-bottom:24px;"/>
 		<input id="btn_login_submit" class="btn_input_info_submit" type="button" value="로그인"/> 
     	<div style="width:500px;margin:25.1px 0 38.9px 0;float:left;" >
-    		<a href="#" style="color:#707070;font-size:19px;float:left">아이디/비밀번호 찾기</a>
-    		<a th:href="@{/signup} "style="color:#707070;font-size:19px;float:right">회원가입</a>
+    		<p style="color:#707070;font-size:18px;float:left"><a th:href="@{/id-inquiry}">아이디</a> / <a th:href="@{/pw-inquiry}">비밀번호 찾기</a></p>
+    		<a th:href="@{/signup} "style="color:#707070;font-size:18px;float:right">회원가입</a>
     	</div>
     	<div style="margin-bottom:80.5px;float:left;">
     		<button id="btn_kakao_login" class="btn_social_login">

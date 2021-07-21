@@ -11,7 +11,7 @@
 			<div class="anonymous login_wrapper">
 				<p style="margin: 0 0 0 5px;">댕부를 더 안전하고 편리하게 이용하세요</p>
 				<a th:href="@{/login}"><button id="btn_login_handler">댕부 로그인</button></a>
-				<p style="float:left;margin-left:5px"><a href="#">아이디/비밀번호 찾기</a></p>
+				<p style="float:left;margin-left:5px"><a th:href="@{/id-inquiry}">아이디</a> / <a th:href="@{/pw-inquiry}">비밀번호 찾기</a></p>
 				<p style="float:right;margin-right:5px"><a th:href="@{/signup}">회원가입</a></p>
 			</div>
 			<div id="side_profile_container" class="has_authority">
@@ -21,7 +21,7 @@
 							<span class="username" style="margin:0px;"></span>님
 						</span>
 						<p style="font-size: 10px;margin:8px 0 0 5px;color:#707070;vertical-align:top;display:inline-block;">
-							<a href="#">
+							<a th:href="@{/change-password}">
 								정보수정
 								<img th:src="@{/img/ic_lock_profile.png}" style="margin-bottom:3px;"/>
 							</a>

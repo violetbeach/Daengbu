@@ -19,11 +19,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.violetbeach.daengbu.controller.v1.command.ChangePasswordCommand;
 import com.violetbeach.daengbu.controller.v1.command.SignupFormCommand;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.dto.response.Response;
@@ -121,6 +124,16 @@ public class UserController {
 		if(userService.getMailAuthByEmail(mail).equals(auth)) {
 			return Response.ok();
 		} else return Response.notFound().setPayload("인증번호가 정확하지 않습니다.");
+	}
+	
+	@PutMapping("/change-password")
+	public Response changePassword(@RequestBody ChangePasswordCommand changePasswordCommand) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto=userService.findByEmail(auth.getName());
+		if(userService.isMatch(changePasswordCommand.getOldPassword(), userDto.getPassword())) {
+			userService.changePassword(userDto, changePasswordCommand.getNewPassword());
+		} else Response.notFound().setPayload(changePasswordCommand.getOldPassword());
+		return Response.ok();
 	}
 	
 }

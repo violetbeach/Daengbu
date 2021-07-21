@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/default">
+<head>
+	<title>아이디 찾기</title>
+</head>
+
+<th:block layout:fragment="content">
+	<div id="login_container">
+		<p style="font-size:32px;font-weight:800;margin-top:73.5px;margin-bottom:48.5px">아이디 찾기</p>
+		
+		<div id="fragment">
+		<div th:if="${id_result}==null">
+			<p style="font-size:14px;float:left;color:#000000;margin-bottom:8px;"> * 회원정보에 등록한 휴대전화 번호와 입력한 휴대전화 번호가 같아야 아이디를 찾을</p>
+			<p style="padding-left:12px;float:left;font-size:14px;color:#000000;margin-bottom:48px;"> 수 있습니다. </p>
+			<p style="clear:both;font-size:20px;color:#000000;float:left;font-weight:700;padding-left:9.5px;">휴대전화</p>
+			<input id="input_tel" type="text" class="input_info" autocomplete="off" maxlength="11" placeholder="전화번호 입력" style="margin-bottom:112.5px;"/>
+			<a th:href="@{/}"><button id="btn_write_cancel" type="button" style="margin-left:76px;margin-bottom:158.5px;">취소</button></a>
+    		<input id="btn_submit"  class="btn_write_submit" type="button" value="제출" style="margin-right:70px;"/> 
+    	</div>
+    	<div th:if="${id_result}!=null and ${id_result}!=not_found">
+    		<p style="font-size:14px;float:left;color:#000000;margin-bottom:49.5px;"> * 고객님의 정보와 일치하는 아이디 목록입니다.</p>
+			<div style="width:500px;height:136px;float:left;border:solid 1px #b2b2b2;margin-bottom:110px;">
+				<p th:text="${id_result}" style="font-size:18px;color:#000000;margin-top:51px;font-weight:700;"></p>
+			</div>
+			<a th:href="@{/}"><button id="btn_write_cancel" type="button" style="margin-left:76px;margin-bottom:158.5px;">홈으로</button></a>
+    		<a th:href="@{/login}"><button class="btn_write_submit" type="button" style="margin-right:70px;">로그인</button></a>
+    	</div>
+    	<div th:if="${id_result}==not_found">
+    		<p style="font-size:14px;float:left;color:#000000;margin-bottom:49.5px;"> * 고객님의 정보와 일치하는 아이디 목록입니다.</p>
+			<div style="width:500px;height:136px;float:left;border:solid 1px #b2b2b2;margin-bottom:110px;">
+				<p style="font-size:16px;color:#000000;margin-top:51px;font-weight:700;">고객님이 입력하신 정보와 일치하는 계정이 업습니다.</p>
+			</div>
+			<a th:href="@{/}"><button id="btn_write_cancel" type="button" style="margin-left:76px;margin-bottom:158.5px;">홈으로</button></a>
+    		<a th:href="@{/id-inquiry}"><button class="btn_write_submit" type="button" style="margin-right:70px;">다시하기</button></a>
+    	</div>	
+    	</div>
+    </div>
+    
+    <script>
+    $(document).ready(function(){
+    	
+    	$("#btn_submit").click(function(){
+    		$.ajax ({
+	        	url : window.location.pathname + '/result',
+	        	type : 'post',
+	        	data : { tel : $('#input_tel').val() },
+	        	cache : false,
+	        	success : function (html) {
+	        		$("#fragment").replaceWith(html);
+	        	}
+	    	});
+    	});
+    	
+    })
+    </script>
+</th:block>
+</html>

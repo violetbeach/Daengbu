@@ -14,4 +14,7 @@ public interface UserRepository {
 	String getUsernameById(Long id);
 	void addMailAuth(String email, String auth);
 	String getMailAuthByEmail(String email);
+	void changePassword(UserDto userDto);
+	String getEmailByTel(String tel);
+	
 }
