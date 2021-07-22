@@ -33,7 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-    	web.ignoring().antMatchers("/resources/**"); // 개발단계이기 때문
+    	web.ignoring().antMatchers(
+    			"/resources/**", "/static/**", "/styles/**", "/js/**", "/img/**",
+                "/resources/static/**", "/js/**", "/img/**", "/font/**",
+                "/vendor/**", "/svg/**", "/model/**", "/oauth2/**");
     }
 
     @Override
@@ -42,10 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.httpBasic().disable()
         	.csrf().disable()
-        	.authorizeRequests()
-        	.antMatchers("/**").permitAll() // 개발단계이기 때문
-        	.anyRequest()
-        	.authenticated()
+        	.authorizeRequests() 
+        	.antMatchers("/api/v1/article/wish").authenticated()
+        	.antMatchers("/api/v1/article").authenticated()
+        	.antMatchers("/api/v1/chat/room").authenticated()
+        	.anyRequest().permitAll()
         	.and()
         	.exceptionHandling()
         	.authenticationEntryPoint((req, rsp, e) -> rsp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
