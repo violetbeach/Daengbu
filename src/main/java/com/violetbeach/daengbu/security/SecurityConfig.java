@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.violetbeach.daengbu.security.api.ApiJWTAuthenticationFilter;
 import com.violetbeach.daengbu.security.api.ApiJWTAuthorizationFilter;
+import com.violetbeach.daengbu.security.api.RefererFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	web.ignoring().antMatchers(
     			"/resources/**", "/static/**", "/styles/**", "/js/**", "/img/**",
                 "/resources/static/**", "/js/**", "/img/**", "/font/**",
-                "/vendor/**", "/svg/**", "/model/**", "/oauth2/**");
+                "/vendor/**", "/svg/**", "/model/**", "/oauth2/**",
+                "/*");
     }
 
     @Override
@@ -56,6 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         	.and()
         	.addFilter(new ApiJWTAuthenticationFilter(authenticationManager()))
         	.addFilter(new ApiJWTAuthorizationFilter(authenticationManager()))
+        	.addFilterBefore(new RefererFilter(), ApiJWTAuthorizationFilter.class)
         	.sessionManagement()
         	.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         
