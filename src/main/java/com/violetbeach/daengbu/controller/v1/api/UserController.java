@@ -33,6 +33,7 @@ import com.violetbeach.daengbu.dto.response.Response;
 import com.violetbeach.daengbu.service.UserService;
 import com.violetbeach.daengbu.util.ClientIpUtils;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,6 +48,7 @@ public class UserController {
 	@Autowired
 	private JavaMailSender javaMailSender;
 	
+	@ApiOperation(value = "사용자 정보 조회", notes = "현재 로그인한 사용자의 정보를 불러옵니다.")
 	@GetMapping("/me")
 	public Response findByToken(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -56,6 +58,7 @@ public class UserController {
 		} else return Response.badRequest().setPayload(new UserDto());
 	}
 	
+	@ApiOperation(value = "로그아웃", notes = "쿠키에 저장된 JWT를 만료시킵니다.")
 	@GetMapping("/logout")
 	public void deleteCookie(HttpServletResponse res) {
 		Cookie cookie = new Cookie("token", null);
@@ -66,18 +69,21 @@ public class UserController {
 		res.addCookie(cookie);
 	}
 	
+	@ApiOperation(value = "이메일 중복 체크", notes = "이메일 존재 여부를 확인합니다.")
 	@GetMapping("/check-dup-email")
 	public Response checkDupEmail(@RequestParam("email") String email) {
 		log.info("중복체크, email: '{}'", email);
 		return Response.ok().setPayload(userService.isDuplicateEmail(email));
 	}
 	
+	@ApiOperation(value = "닉네임 중복 체크", notes = "닉네임 존재 여부를 확인합니다.")
 	@GetMapping("/check-dup-username")
 	public Response checkDupUsername(@RequestParam("username") String username) {
 		log.info("중복체크, username: '{}'", username);
 		return Response.ok().setPayload(userService.isDuplicateUsername(username));
 	}
-	 
+	
+	@ApiOperation(value = "계정 생성", notes = "입력 폼으로 계정을 생성합니다.")
 	@PostMapping
 	private ModelAndView regist(@Valid @ModelAttribute("signupFormCommand") SignupFormCommand signupFormCommand, 
 			HttpServletRequest request, BindingResult bindingResult) {
@@ -101,6 +107,7 @@ public class UserController {
 		return modelAndView;
 	}
 	
+	@ApiOperation(value = "이메일 인증", notes = "이메일로 인증번호를 전송하고, 서버에 등록합니다.")
 	@PostMapping("/email-auth")
 	public Response sendMail(String mail) throws Exception {
 		MimeMessage message = javaMailSender.createMimeMessage();
@@ -119,6 +126,7 @@ public class UserController {
 		return Response.ok();
 	}
 	
+	@ApiOperation(value = "이메일 인증 확인", notes = "이메일 인증번호 일치 여부를 확인합니다.")
 	@GetMapping("/email-auth")
 	public Response emailAuth(String mail, String auth) throws Exception {
 		if(userService.getMailAuthByEmail(mail).equals(auth)) {
@@ -126,6 +134,7 @@ public class UserController {
 		} else return Response.notFound().setPayload("인증번호가 정확하지 않습니다.");
 	}
 	
+	@ApiOperation(value = "비밀번호 수정", notes = "회원의 비밀번호를 수정합니다.")
 	@PutMapping("/change-password")
 	public Response changePassword(@RequestBody ChangePasswordCommand changePasswordCommand) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -40,6 +40,7 @@ import com.violetbeach.daengbu.util.ClientIpUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -53,11 +54,13 @@ public class OAuthController {
 	@Autowired
 	CustomUserDetailsService customUserDetailsService;
 	
+	@ApiOperation(value = "카카오 인가 코드 조회", notes = "카카오 로그인 화면을 호출하고, 카카오 인가 코드를 발급받습니다. 그리고 해당 인가 코드로 카카오 토큰을 발급받는 API로 redirect 합니다.")
 	@GetMapping("/oauth2/outhorization/kakao")
 	public void kakaoLogin(HttpServletResponse res) {
 		res.addHeader("Location", "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0c5b4ac382c9d6c310cb82f7062d253f&redirect_uri=http://localhost:8080/oauth2/code/kakao");
 	}
 	
+	@ApiOperation(value = "카카오 로그인", notes = "카카오 인가 코드로 카카오 토큰을 발급받고, 조회한 카카오 토큰으로 카카오 사용자 정보를 가져옵니다. 해당 사용자가 댕부에 존재하면 JWT를 발급받고, 존재하지 않으면 소셜 계정생성 뷰를 호출합니다.")
 	@GetMapping("/oauth2/code/kakao")
 	public ModelAndView getToken(String code, HttpServletResponse res) {
 		
@@ -142,6 +145,7 @@ public class OAuthController {
 		return new ModelAndView("redirect:/");
 	}
 	
+	@ApiOperation(value = "소셜 계정 생성", notes = "소셜 계정을 생성하고 JWT를 발급받습니다.")
 	@PostMapping("/oauth2/user")
 	public Response OAuthRegist(@RequestBody UserDto userDto, HttpServletRequest req, HttpServletResponse res) {
 		userDto.setPassword(UUID.randomUUID().toString());

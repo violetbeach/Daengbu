@@ -16,6 +16,7 @@ import com.violetbeach.daengbu.dto.response.Response.Status;
 import com.violetbeach.daengbu.service.ChatService;
 import com.violetbeach.daengbu.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,6 +32,7 @@ public class ChatController {
 	@Autowired
 	private UserService userService;
 	
+	@ApiOperation(value = "메시지 생성", notes = "채팅방 id와 text를 이용하여 메시지를 생성합니다.")
 	@PostMapping
 	public Response createMessage(Long roomId, String message) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -43,6 +45,7 @@ public class ChatController {
 		return Response.ok();
 	}
 	
+	@ApiOperation(value = "방 생성", notes = "상대방 사용자 id로 채팅방을 생성합니다.")
 	@PostMapping("/room")
 	public Response createRoom(Long authorId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

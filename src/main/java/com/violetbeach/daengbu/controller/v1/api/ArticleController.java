@@ -32,6 +32,7 @@ import com.violetbeach.daengbu.dto.response.Response;
 import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,11 +48,13 @@ public class ArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
+	@ApiOperation(value = "견종 리스트 조회", notes = "서버에 등록된 견종 목록을 제공하는 API입니다.")
 	@GetMapping("/kind")
 	public List<KindDto> getKinds() {
 		return articleService.getKinds();
 	}
 	
+	@ApiOperation(value = "게시글 생성", notes = "입력 폼으로 게시글을 생성합니다.")
 	@PostMapping
 	private String post(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
 			@RequestPart List<MultipartFile> images, HttpServletResponse response) {
@@ -93,6 +96,7 @@ public class ArticleController {
 		return "/";
 	}
 	
+	@ApiOperation(value = "게시글 삭제", notes = "게시글 id로 게시글을 삭제합니다.")
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Response delArticle(Long id) {
@@ -105,6 +109,7 @@ public class ArticleController {
 		return Response.unauthorized();
 	}
 	
+	@ApiOperation(value = "찜 생성", notes = "게시글 id로 해당 게시글에 찜을 생성합니다.")
 	@PostMapping("/wish")
 	public void addWishlist(Long articleId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -115,6 +120,7 @@ public class ArticleController {
 		articleService.addWishlist(wishlistDto);
 	}
 	
+	@ApiOperation(value = "찜 삭제", notes = "게시글 id로 해당 게시글에 찜을 삭제합니다.")
 	@DeleteMapping("/wish")
 	public void delWishlist(Long articleId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -125,6 +131,7 @@ public class ArticleController {
 		articleService.delWishlist(wishlistDto);
 	}
 	
+	@ApiOperation(value = "게시글 수정", notes = "입력 폼으로 게시글을 수정합니다.")
 	@PutMapping
 	private Response update(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
 			@RequestPart List<MultipartFile> images, HttpServletResponse response) {
