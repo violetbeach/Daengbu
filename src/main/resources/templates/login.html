@@ -9,8 +9,8 @@
 <th:block layout:fragment="content">
 	<div id="login_container">
 		<p style="font-size:40px;font-weight:800;margin-top:40.5px;margin-bottom:40.5px">로그인</p>
-		<input id="input_email" type="email" class="input_info" maxlength="30" placeholder="이메일" style="margin-bottom:12px;"/>
-		<input id="input_password" type="password" class="input_info" maxlength="16" placeholder="비밀번호" style="margin-bottom:24px;"/>
+		<input onkeyup="enterkey();" id="input_email" type="email" class="input_info" maxlength="30" placeholder="이메일" style="margin-bottom:12px;"/>
+		<input onkeyup="enterkey();" id="input_password" type="password" class="input_info" maxlength="16" placeholder="비밀번호" style="margin-bottom:24px;"/>
 		<input id="btn_login_submit" class="btn_input_info_submit" type="button" value="로그인"/> 
     	<div style="width:500px;margin:25.1px 0 38.9px 0;float:left;" >
     		<p style="color:#707070;font-size:18px;float:left"><a th:href="@{/id-inquiry}">아이디</a> / <a th:href="@{/pw-inquiry}">비밀번호 찾기</a></p>
@@ -66,6 +66,27 @@
     	});
     	
     })
+    
+    function enterkey() {
+    	if(window.event.keyCode == 13){
+    		$.ajax({
+    			url: 'api/auth',
+        		type : 'post',
+        		data : JSON.stringify({
+        			email : $("#input_email").val(),
+        			password : $("#input_password").val()
+        		}),
+        		contentType: 'application/json; charset=UTF-8',
+        		success : function(response, status, xhr){
+        			window.location = '/';
+        		},
+        		error: function(request, status, error){
+        			alert("가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.");
+        		}
+        	});
+        }
+    }
+    
     </script>
 </th:block>
 </html>

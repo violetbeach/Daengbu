@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-// 유저 정보 동기화
+	// 유저 정보 동기화
 	$.ajax({
 			async: 'true',
 			url: '/api/v1/user/me',
@@ -14,7 +14,7 @@ $(document).ready(function(){
 			}
 	});
 
-// 로그아웃
+	// 로그아웃
 	$(".btn_logout").click(function(){
 		$.ajax({
 			url: '/api/v1/user/logout',

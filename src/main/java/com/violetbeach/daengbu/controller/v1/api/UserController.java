@@ -117,7 +117,7 @@ public class UserController {
 		for(int i = 0; i < 3; i++) {
 			key += (char)(random.nextInt(25) + 65);
 		}
-		key += random.nextInt(9999) + 1000;
+		key += random.nextInt(8999) + 1000;
 		message.setFrom(new InternetAddress("reply@daengbu.co.kr", "댕부"));
 		message.setSubject("DaengBu 인증번호가 도착했습니다.");
 		message.setText("인증번호 : " + key);
