@@ -57,7 +57,7 @@ public class OAuthController {
 	@ApiOperation(value = "카카오 인가 코드 조회", notes = "카카오 로그인 화면을 호출하고, 카카오 인가 코드를 발급받습니다. 그리고 해당 인가 코드로 카카오 토큰을 발급받는 API로 redirect 합니다.")
 	@GetMapping("/oauth2/outhorization/kakao")
 	public void kakaoLogin(HttpServletResponse res) {
-		res.addHeader("Location", "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0c5b4ac382c9d6c310cb82f7062d253f&redirect_uri=http://localhost:8080/oauth2/code/kakao");
+		res.addHeader("Location", "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=0c5b4ac382c9d6c310cb82f7062d253f&redirect_uri=https://daengbu.tech/oauth2/code/kakao");
 	}
 	
 	@ApiOperation(value = "카카오 로그인", notes = "카카오 인가 코드로 카카오 토큰을 발급받고, 조회한 카카오 토큰으로 카카오 사용자 정보를 가져옵니다. 해당 사용자가 댕부에 존재하면 JWT를 발급받고, 존재하지 않으면 소셜 계정생성 뷰를 호출합니다.")
@@ -72,7 +72,7 @@ public class OAuthController {
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "0c5b4ac382c9d6c310cb82f7062d253f");
 		params.add("client_secret", "8hNHwTycmaqCVCLL3o2bxLnC8mQsnLzl");
-		params.add("redirect_uri", "http://localhost:8080/oauth2/code/kakao");
+		params.add("redirect_uri", "https://daengbu.tech/oauth2/code/kakao");
 		params.add("code", code);
 		
 		HttpEntity<MultiValueMap<String, String>> kakaoTokenRequest =

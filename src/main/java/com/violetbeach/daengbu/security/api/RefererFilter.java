@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebFilter
 public class RefererFilter implements Filter {
-    private static final List<String> acceptableDomains = Arrays.asList("google.com", "localhost", "192.168.25.2:8080");
+    private static final List<String> acceptableDomains = Arrays.asList("google.com", "localhost", "daengbu.tech");
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

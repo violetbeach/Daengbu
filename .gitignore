@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Secret ###
+/src/main/resources/config.properties
+/src/main/resources/application-prod.properties
+/src/main/resources/application-dev.properties
+
+### dog image (user upload) ###
+/src/main/resources/static/img/post/**

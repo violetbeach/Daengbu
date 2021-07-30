@@ -42,6 +42,7 @@ i {
 }
 #main_container {
     width: 1184px;
+    min-height: 724px;
     margin: 42.5px auto 38px;
 }
 header {
@@ -66,6 +67,7 @@ div#header_content {
     position: relative;
 }
 div#header_line {
+	min-width: 1184px;
     padding-bottom: 16px;
     background-color: var(--light-pink);
     border-top: 0.7px solid var(--dark-pink);
@@ -233,6 +235,7 @@ select::-ms-expand {
     margin: 0px 20px;
 }
 footer {
+	min-width: 1184px;
     height: 89px;
     padding: 30px 0 32px;
     background-color: var(--light-pink);

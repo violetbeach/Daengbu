@@ -41,13 +41,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/article")
 public class ArticleController {
 	
-	
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private ArticleService articleService;
 	
+	String sep = File.separator;
+	String imgPath = new File("").getAbsolutePath() + sep + "src" + sep + "main" + sep + "resources" + sep + "static" + sep + "img" + sep + "post" + sep;
+
 	@ApiOperation(value = "견종 리스트 조회", notes = "서버에 등록된 견종 목록을 제공하는 API입니다.")
 	@GetMapping("/kind")
 	public List<KindDto> getKinds() {
@@ -75,7 +77,6 @@ public class ArticleController {
 					.setText(postFormCommand.getText());
 			
 			List<ArticleImageDto> listArticleImageDto = new ArrayList<>();
-			String fileUrl = "D:\\eclipse-workspace\\daengbu\\src\\main\\resources\\static\\img\\post\\";
 			
 			for(int i=0;i<images.size();i++) {
 				listArticleImageDto.add(new ArticleImageDto());
@@ -84,7 +85,7 @@ public class ArticleController {
 			
 			int count=0;	
 			for(MultipartFile file : images) {
-				File image = new File(fileUrl+listArticleImageDto.get(count).getId()+".png");
+				File image = new File(imgPath+listArticleImageDto.get(count).getId()+".png");
 				file.transferTo(image);
 				count++;
 			}
@@ -155,7 +156,6 @@ public class ArticleController {
 			
 			if(userDto.getId()==articleDto.getAuthorId()) {
 				List<ArticleImageDto> listArticleImageDto = new ArrayList<>();
-				String fileUrl = "D:\\eclipse-workspace\\daengbu\\src\\main\\resources\\static\\img\\post\\";
 				
 				for(int i=0;i<images.size();i++) {
 					listArticleImageDto.add(new ArticleImageDto());
@@ -170,7 +170,7 @@ public class ArticleController {
 				int count=0;	
 				
 				for(MultipartFile file : images) {
-					File image = new File(fileUrl+listArticleImageDto.get(count).getId()+".png");
+					File image = new File(imgPath+listArticleImageDto.get(count).getId()+".png");
 					file.transferTo(image);
 					count++;
 				}

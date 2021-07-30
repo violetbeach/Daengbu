@@ -47,7 +47,7 @@
     	</p>
     	<p style="width:100%;font-size:20px;font-weight:700;display:inline-block;margin:30px 0 15px 0;">
     		<span style="padding-top:6px;display:inline-block">제목</span>
-    		<input th:field="${postFormCommand.title}" type="text" name="title" id="write_title" autocomplete="off"/>
+    		<input th:field="${postFormCommand.title}" type="text" name="title" id="write_title" autocomplete="off" spellcheck="false"/>
     	</p>
     	<div style="width:100%;font-size:20px;font-weight:700;display:inline-block;margin:0;">
     		<span style="padding-top:10px;display:inline-block">이미지 업로드</span>
@@ -64,7 +64,7 @@
     		</div>
     		<input type="file" class="upload_img" accept="image/*" onchange="setPreviewImage(event);" style="display:none;" multiple/>
     	</div>
-    	<textarea th:field="${postFormCommand.text}"  name="text" id="write_content" placeholder="내용을 입력해주세요."></textarea>
+    	<textarea th:field="${postFormCommand.text}"  name="text" id="write_content" placeholder="내용을 입력해주세요." spellcheck="false"></textarea>
     	<a th:href="@{/}"><button id="btn_write_cancel" type="button">취소</button></a>
     	<input th:if="${postFormCommand.articleId}==null" id="btn_write_submit"  class="btn_write_submit" type="button" value="등록"/> 
     	<input th:unless="${postFormCommand.articleId}==null" id="btn_modify_submit" type="button" class="btn_write_submit" value="수정"/> 

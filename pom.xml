@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.daengbu</groupId>
 	<artifactId>daengbu</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>daengbu</name>
 	<description>project for Spring Boot</description>
 	<properties>
