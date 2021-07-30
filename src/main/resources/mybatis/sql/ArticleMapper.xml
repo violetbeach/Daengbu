@@ -57,7 +57,7 @@
 				AND author_id = #{authorId}
 			</if>
 		</where>
-		ORDER BY id ASC;
+		ORDER BY id DESC;
 	</select>
 	
 	<select id="getById" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
@@ -85,7 +85,7 @@
 			</if>
 		</where>
 		)
-		GROUP BY article_id ORDER BY article_id ASC;
+		GROUP BY article_id ORDER BY article_id DESC;
 	</select>
 	
 	<select id="getContentByArticleId" parameterType="Long" resultType="String">
@@ -121,13 +121,14 @@
 	
 	<select id="getWishArticleList" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleDto">
 		SELECT * FROM article WHERE id IN
-			(SELECT article_id FROM wishlist WHERE user_id = #{id});
+			(SELECT article_id FROM wishlist WHERE user_id = #{id})
+		ORDER BY id DESC;
 	</select>
 	
 	<select id="getWishArticleImageList" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.article.ArticleImageDto">
 		SELECT * FROM article_image WHERE article_id IN
 			(SELECT article_id FROM wishlist WHERE user_id = #{id})
-		GROUP BY article_id;
+		GROUP BY article_id ORDER BY article_id DESC;
 	</select>
 	
 	<delete id="delArticle" parameterType="Long">
