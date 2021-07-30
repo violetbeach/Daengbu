@@ -60,7 +60,7 @@
     	<div th:onclick="'location.href=\'/article/'+ @{${articleDto.id}} + '\''" th:each="articleDto, i: ${articleList}" class="board_card">
     		<img th:src="@{'/img/post/'+${articleDto.repImg}+'.png'}" class="card_img" />
     		<div class="card_content">
-    		<p class="kind_id" th:text="${articleDto.kindId}"style="font-size:22px;font-weight:800;"></p>
+    		<p class="kind_id" th:text="${articleDto.kindValue}"style="font-size:22px;font-weight:800;"></p>
    			<p style="font-size:20px;margin-top:2px;">
     				<span th:text="${articleDto.location1}"></span>
     				<span th:text="${articleDto.location2}"></span>
@@ -100,11 +100,6 @@
 		type : 'get',
 		success : function(response, status, xhr){
 			response.forEach(function(kind) {
-				$('.kind_id').each(function(index, item){
-					if( $(item).html()==kind['id'] ) {
-						$(item).html(kind['value']);
-					}
-				})
 				$("select[name^=kind]").append("<option value='"+kind['id']+"'>"+kind['value']+"</option>");
 			});
 		}

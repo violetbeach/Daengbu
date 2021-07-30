@@ -18,6 +18,7 @@ import com.violetbeach.daengbu.controller.v1.command.ArticleSearchCommand;
 import com.violetbeach.daengbu.controller.v1.command.PostFormCommand;
 import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.article.ArticleImageDto;
+import com.violetbeach.daengbu.dto.model.article.KindDto;
 import com.violetbeach.daengbu.dto.model.article.WishlistDto;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.service.ArticleService;
@@ -70,10 +71,17 @@ public class ArticleCommandController {
 				articleList=articleList.subList(0, 9);
 			}
 		}
+		List<KindDto> kindListDto = articleService.getKinds();
 		for(int i = 0; i<articleList.size(); i++) {
 			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
 			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
 			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+			for(KindDto kindDto : kindListDto) {
+				if(articleList.get(i).getKindId().equals(kindDto.getId())) {
+					articleList.get(i).setKindValue(kindDto.getValue());
+					break;
+				}
+			}
 		}
 		modelAndView.addObject("articleList", articleList);
 		return modelAndView;
@@ -119,12 +127,7 @@ public class ArticleCommandController {
 				.setAuthorId(userDto.getId());
 		List<ArticleDto> articleList = articleService.getArticleList(articleDto);
 		List<ArticleImageDto> articleImageList = articleService.getArticleImageList(articleDto);
-		modelAndView.addObject("maxNum",articleList.size());
-		for(int i = 0; i<articleList.size(); i++) {
-			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
-			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
-			articleList.get(i).setRepImg(articleImageList.get(i).getId());
-		}
+		modelAndView.addObject("maxNum",articleList.size());	
 		try {
 			int p = Integer.parseInt(page);
 			if(articleList.size()<p*9) {
@@ -139,6 +142,18 @@ public class ArticleCommandController {
 			}
 			else {
 				articleList=articleList.subList(0, 9);
+			}
+		}
+		List<KindDto> kindListDto = articleService.getKinds();
+		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
+			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+			for(KindDto kindDto : kindListDto) {
+				if(articleList.get(i).getKindId().equals(kindDto.getId())) {
+					articleList.get(i).setKindValue(kindDto.getValue());
+					break;
+				}
 			}
 		}
 		modelAndView.addObject("articleList", articleList);
@@ -154,11 +169,6 @@ public class ArticleCommandController {
 		List<ArticleDto> articleList = articleService.getWishArticleList(userDto.getId());
 		List<ArticleImageDto> articleImageList = articleService.getWishArticleImageList(userDto.getId());
 		modelAndView.addObject("maxNum",articleList.size());
-		for(int i = 0; i<articleList.size(); i++) {
-			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
-			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
-			articleList.get(i).setRepImg(articleImageList.get(i).getId());
-		}
 		try {
 			int p = Integer.parseInt(page);
 			if(articleList.size()<p*9) {
@@ -173,6 +183,18 @@ public class ArticleCommandController {
 			}
 			else {
 				articleList=articleList.subList(0, 9);
+			}
+		}
+		List<KindDto> kindListDto = articleService.getKinds();
+		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
+			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+			for(KindDto kindDto : kindListDto) {
+				if(articleList.get(i).getKindId().equals(kindDto.getId())) {
+					articleList.get(i).setKindValue(kindDto.getValue());
+					break;
+				}
 			}
 		}
 		modelAndView.addObject("articleList", articleList);

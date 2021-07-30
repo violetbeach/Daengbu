@@ -29,5 +29,6 @@ public class ArticleDto{
 	private int viewCount;
 	public String createdDatetime;
 	private Long repImg;
+	private String kindValue;
 	
 }
