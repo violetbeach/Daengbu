@@ -1,5 +1,8 @@
 package com.violetbeach.daengbu.controller.v1.ui;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import com.violetbeach.daengbu.dto.model.article.WishlistDto;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
+import com.violetbeach.daengbu.util.DateUtils;
 
 @Controller
 public class ArticleCommandController {
@@ -38,7 +42,7 @@ public class ArticleCommandController {
 	
 	@GetMapping
 	public ModelAndView initArticleList(@RequestParam(value="page", required=false) String page,
-			ArticleSearchCommand articleSearchCommand){
+			ArticleSearchCommand articleSearchCommand) throws ParseException{
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("search", true);
 		modelAndView.addObject("board_name", "분양 게시판");
@@ -67,6 +71,8 @@ public class ArticleCommandController {
 			}
 		}
 		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
 			articleList.get(i).setRepImg(articleImageList.get(i).getId());
 		}
 		modelAndView.addObject("articleList", articleList);
@@ -104,7 +110,7 @@ public class ArticleCommandController {
 	}
 	
 	@GetMapping("/article/my")
-	public ModelAndView initMyArticleList(@RequestParam(value="page", required=false) String page){
+	public ModelAndView initMyArticleList(@RequestParam(value="page", required=false) String page) throws ParseException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto=userService.findByEmail(auth.getName());
 		ModelAndView modelAndView = new ModelAndView("index");
@@ -115,6 +121,8 @@ public class ArticleCommandController {
 		List<ArticleImageDto> articleImageList = articleService.getArticleImageList(articleDto);
 		modelAndView.addObject("maxNum",articleList.size());
 		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
 			articleList.get(i).setRepImg(articleImageList.get(i).getId());
 		}
 		try {
@@ -138,7 +146,7 @@ public class ArticleCommandController {
 	}
 	
 	@GetMapping("/article/wish")
-	public ModelAndView initWishArticleList(@RequestParam(value="page", required=false) String page){
+	public ModelAndView initWishArticleList(@RequestParam(value="page", required=false) String page) throws ParseException{
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto=userService.findByEmail(auth.getName());
 		ModelAndView modelAndView = new ModelAndView("index");
@@ -147,6 +155,8 @@ public class ArticleCommandController {
 		List<ArticleImageDto> articleImageList = articleService.getWishArticleImageList(userDto.getId());
 		modelAndView.addObject("maxNum",articleList.size());
 		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
 			articleList.get(i).setRepImg(articleImageList.get(i).getId());
 		}
 		try {
