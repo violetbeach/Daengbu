@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,11 +44,40 @@ public class ArticleCommandController {
 	}
 	
 	@GetMapping
-	public ModelAndView initArticleList(@RequestParam(value="page", required=false) String page,
-			ArticleSearchCommand articleSearchCommand) throws ParseException{
+	public ModelAndView initArticleList() throws ParseException{
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("search", true);
 		modelAndView.addObject("board_name", "분양 게시판");
+		ArticleDto articleDto = new ArticleDto();
+		List<ArticleDto> articleList = articleService.getArticleList(articleDto);
+		List<ArticleImageDto> articleImageList = articleService.getArticleImageList(articleDto);
+		modelAndView.addObject("maxNum",articleList.size());
+		if(articleList.size()<9) {
+			articleList=articleList.subList(0, articleList.size());
+		}
+		else {
+			articleList=articleList.subList(0, 9);
+		}
+		List<KindDto> kindListDto = articleService.getKinds();
+		for(int i = 0; i<articleList.size(); i++) {
+			Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(articleList.get(i).getCreatedDatetime());
+			articleList.get(i).setCreatedDatetime(DateUtils.timeBefore(date));
+			articleList.get(i).setRepImg(articleImageList.get(i).getId());
+			for(KindDto kindDto : kindListDto) {
+				if(articleList.get(i).getKindId().equals(kindDto.getId())) {
+					articleList.get(i).setKindValue(kindDto.getValue());
+					break;
+				}
+			}
+		}
+		modelAndView.addObject("articleList", articleList);
+		return modelAndView;
+	}
+	
+	@PostMapping("/search")
+	public String initArticleList(@RequestParam(value="page", required=false) String page,
+			ArticleSearchCommand articleSearchCommand, Model model) throws ParseException{
+		model.addAttribute("board_name", "분양 게시판");
 		ArticleDto articleDto = new ArticleDto()
 				.setLocation1(articleSearchCommand.getLocation1())
 				.setKindId(articleSearchCommand.getKindId())
@@ -54,7 +85,7 @@ public class ArticleCommandController {
 				.setAge(articleSearchCommand.getAge());
 		List<ArticleDto> articleList = articleService.getArticleList(articleDto);
 		List<ArticleImageDto> articleImageList = articleService.getArticleImageList(articleDto);
-		modelAndView.addObject("maxNum",articleList.size());
+		model.addAttribute("maxNum",articleList.size());
 		try {
 			int p = Integer.parseInt(page);
 			if(articleList.size()<p*9) {
@@ -83,8 +114,8 @@ public class ArticleCommandController {
 				}
 			}
 		}
-		modelAndView.addObject("articleList", articleList);
-		return modelAndView;
+		model.addAttribute("articleList", articleList);
+		return "index :: #index_fragment";
 	}
 	
 	@GetMapping("/article/{id}")

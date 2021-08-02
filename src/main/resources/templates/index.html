@@ -44,6 +44,7 @@
     	</div>
     </div>
     
+    <div id="index_fragment">
     <div style="width:807px;margin-top:10px;margin-bottom:41px;font-size:0px;float:left;">
     	<img th:src="@{/img/ic_daengbu_logo.png}" class="content_logo" />
     	<span class="content_title" th:text="${board_name}"></span>
@@ -60,12 +61,12 @@
     	<div th:onclick="'location.href=\'/article/'+ @{${articleDto.id}} + '\''" th:each="articleDto, i: ${articleList}" class="board_card">
     		<img th:src="@{'/img/post/'+${articleDto.repImg}+'.png'}" class="card_img" />
     		<div class="card_content">
-    		<p class="kind_id" th:text="${articleDto.kindValue}"style="font-size:22px;font-weight:800;"></p>
-   			<p style="font-size:20px;margin-top:2px;">
+    		<p class="kind_id" th:text="${articleDto.kindValue}"style="font-size:20px;font-weight:800;margin-top:4px;"></p>
+   			<p style="font-size:18px;margin-top:2px;">
     				<span th:text="${articleDto.location1}"></span>
     				<span th:text="${articleDto.location2}"></span>
     			</p>
-    			<p style="font-size:20px;">
+    			<p style="font-size:18px;margin-bottom:6px;">
     				<span th:text="${articleDto.gender}"></span>
     				<span th:text="${articleDto.age}"></span>
     				</p>
@@ -77,16 +78,22 @@
     <div class="select_page_container">
    		<div class="select_page_numberlist">
    			<img th:src="@{/img/ic_leftarrow_red.png}" class="boardlist_arrow" />
-   			<th:block th:each="num : ${#numbers.sequence(1, (maxNum/9)+1)}">
+   			<th:block th:each="num : ${#numbers.sequence(1, ((maxNum-1)/9)+1)}">
    				<span th:text="${num}"></span>
    			</th:block>
    			<img th:src="@{/img/ic_rightarrow_red.png}" class="boardlist_arrow"/>
    		</div>
     </div>
+    </div>
     
     <script>
     
     var area = ["전체","서울특별시","인천광역시","대전광역시","광주광역시","대구광역시","울산광역시","부산광역시","경기도","강원도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주도"];
+    
+    var last_search_location1 = "";
+    var last_search_kind = "";
+    var last_search_gender = "";
+    var last_search_age = "";
     
     $("select[name^=location1]").each(function() {
 		select_location1 = $(this);
@@ -105,25 +112,50 @@
 		}
 	});
     
-    $('.select_page_numberlist span').click(function(){
-    	location.href="?page="+$(this).html();
+    $('.select_page_numberlist span').each(function(index, item){
+    	if(index==0) $(item).attr('class', 'selected_page');
     })
     
-    $('.select_page_numberlist span').each(function(index, item){
-    	if(index==0) $(item).attr('class', 'selected_page')
-    	if($(item).html()==window.location.search.replace('?page=', '')) {
-    		$('.select_page_numberlist span').removeAttr('class');
-    		$(item).attr('class', 'selected_page');
-    	}
+    $(document).on('click', '.select_page_numberlist span', function(){
+    	var page = $(this).html();
+    	$.ajax ({
+        	url : "/search?location1=" + last_search_location1 +
+    		"&kindId=" + last_search_kind +
+    		"&gender=" + last_search_gender +
+    		"&age="+ last_search_age +
+    		"&page="+ $(this).html(),
+        	type : 'post',
+        	cache : false,
+        	success : function (html) {
+        		$("#index_fragment").replaceWith(html);
+        		$('.select_page_numberlist span').each(function(index, item){
+        	    	if(index + 1 == page) {
+        	    		$(item).attr('class', 'selected_page')
+        	    	}
+        	    })
+        	}
+    	});
     })
     
     $('.btn_article_search').click(function(){
-    	location.href=
-    		"?location1="+$('select[name=location1]').val()+
+    	$.ajax ({
+        	url : "/search?location1="+$('select[name=location1]').val()+
     		"&kindId="+$('select[name=kind]').val()+
     		"&gender="+$('select[name=gender]').val()+
-    		"&age="+$('select[name=age]').val()+
-    		"&";
+    		"&age="+$('select[name=age]').val(),
+        	type : 'post',
+        	cache : false,
+        	success : function (html) {
+        		$("#index_fragment").replaceWith(html);
+        		last_search_location1 = $('select[name=location1]').val();
+        		last_search_kind = $('select[name=kind]').val();
+        		last_search_gender = $('select[name=gender]').val();
+        		last_search_age = $('select[name=age]').val();
+        		$('.select_page_numberlist span').each(function(index, item){
+        	    	if(index==0) $(item).attr('class', 'selected_page');
+        	    })
+        	}
+    	});
     })
     	
     </script>
