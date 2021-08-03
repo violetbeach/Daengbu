@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.article.ArticleImageDto;
@@ -30,6 +31,7 @@ public class ArticleService {
 		return kindRepository.getValueById(id);
 	}
 	
+	@Transactional
 	public Long post(ArticleDto articleDto, ContentDto contentDto, List<ArticleImageDto> listImageDto) {
 		articleRepository.postArticle(articleDto);
 		contentDto.setArticleId(articleDto.getId());
