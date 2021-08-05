@@ -557,8 +557,8 @@ button#btn_post:focus {
     position: absolute;
 }
 #write_image_box .preview_box .img_preview {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     border: solid 2px #a0a0a0;
     border-radius: 10px;
     position: absolute;
@@ -571,9 +571,9 @@ button#btn_post:focus {
     margin: 0 0 0 16px;
     border: solid 2px #a0a0a0;
     border-radius: 10px;
-    display: none;
     text-align: center;
-    vertical-align: top;
+    float: right;
+    cursor: pointer;
 }
 #write_image_box #upload_placeholder {
     margin-left: 80px;

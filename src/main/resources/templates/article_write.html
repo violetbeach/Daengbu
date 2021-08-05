@@ -52,14 +52,10 @@
     	<div style="width:100%;font-size:20px;font-weight:700;display:inline-block;margin:0;">
     		<span style="padding-top:10px;display:inline-block">이미지 업로드</span>
     		<div id="write_image_box">
-    			<p id="upload_placeholder">
-    				<img th:src="@{/img/ic_clip_upload.png}" style="padding-bottom:4px;" />
-    				이 곳에 파일을 드래그 하세요. 또는
-					<span style="font-weight:800;color:#707070;text-decoration:underline;cursor:pointer">파일선택</span>
-    			</p>
-    			<div id="img_list" style="display:inline-block;"></div>
-    			<div id="btn_add_image">
-    				<img width="30" height="30" th:src="@{/img/ic_upload_img.png}" />
+    			<div id="img_list" style="display:inline-block;">
+    				<div id="btn_add_image">
+    					<img width="30" height="30" th:src="@{/img/ic_upload_img.png}" />
+    				</div>
     			</div>
     		</div>
     		<input type="file" class="upload_img" accept="image/*" onchange="setPreviewImage(event);" style="display:none;" multiple/>
@@ -105,19 +101,15 @@
     			btn_cancel.setAttribute("class", "btn_upload_cancel");
     			$(div).append(btn_cancel);
     			$(btn_cancel).click(function(){
-    				console.log($(this).parent().index());
-    				files.splice($(this).parent().index(), 1);
+    				files.splice($(this).parent().index()-1, 1);
     				$(this).parent().remove();
+        			$('#btn_add_image').css("display","inline-block");
+        			$(".upload_img").attr('disabled', false);
     			});
     			
     			$("div#img_list").append(div);
     			
-    			if(files.length!=0) $('#upload_placeholder').hide();
-    			else $('#upload_placeholder').show();
-    			if(files.length!=0 && files.length<=4){
-    				$('#btn_add_image').css("display","inline-block");
-    				$(".upload_img").attr('disabled', false);
-    			} else {
+    			if(files.length>=5){
     				$('#btn_add_image').css("display","none");
     				$(".upload_img").attr('disabled', true);
     			}
@@ -138,11 +130,12 @@
     		cache : false,
     		contentType : false,
     		processData : false,
-    		error : function(){
-    		},
     		success : function(data){
     			location.href = data;
-    		}
+    		},
+    		error : function(){
+    			alert("빈칸을 모두 채워주세요.");
+    		},
     	})
     })
     
@@ -224,22 +217,16 @@
 		});
    		
    		if(article_image_list != null) {
-   			for(var i=0; i<article_image_list.length; i++) {
+   			for(let i=0; i<article_image_list.length; i++) {
+   				if(article_image_list.length==5){
+   	    				$('#btn_add_image').css("display","none");
+   	    				$(".upload_img").attr('disabled', true);
+
+   				}
    				const url = "/img/post/"+article_image_list[i]+".png";
    				const start = async function(a, b){
    					const file = await getFileFromUrl(url, article_image_list[i]+'.png');
-   					files.push(file)
-   					
-   					if(files.length!=0) $('#upload_placeholder').hide();
-   	    			else $('#upload_placeholder').show();
-   	    			if(files.length!=0 && files.length<=4){
-   	    				$('#btn_add_image').css("display","inline-block");
-   	    				$(".upload_img").attr('disabled', false);
-   	    			} else {
-   	    				$('#btn_add_image').css("display","none");
-   	    				$(".upload_img").attr('disabled', true);
-   	    			}
-
+   					files[i]=file
    				}
    				start();
    				var div = document.createElement("div");
@@ -254,23 +241,18 @@
     			btn_cancel.setAttribute("class", "btn_upload_cancel");
     			$(div).append(btn_cancel);
     			$(btn_cancel).click(function(){
-    				console.log($(this).parent().index());
-    				files.splice($(this).parent().index(), 1);
+    				files.splice($(this).parent().index()-1, 1);
     				$(this).parent().remove();
+   	    			$('#btn_add_image').css("display","inline-block");
+   	    			$(".upload_img").attr('disabled', false);
     			});
     			
     			$("div#img_list").append(div);
-    			
-    			console.log(files)
     			
    			}
    		}
     	
     	// 이미지 업로드
-    	$("#upload_placeholder").click(function(){
-    		$(".upload_img").click();
-    	});
-    	
     	$("#btn_add_image").click(function(){
     		$(".upload_img").click();
     	});
