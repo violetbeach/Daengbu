@@ -12,13 +12,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import lombok.RequiredArgsConstructor;
+
 
 @Configuration
+@RequiredArgsConstructor
 @MapperScan(basePackages = "com.violetbeach.daengbu.repository")
 public class MybatisConfiguration {
 	
+	private final DataSource dataSource;
+	
 	@Bean
-	public SqlSessionFactory sqlSessionFactory(@Autowired DataSource dataSource, ApplicationContext applicationContext) throws Exception{
+	public SqlSessionFactory sqlSessionFactory(ApplicationContext applicationContext) throws Exception{
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource);
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/sql/*.xml"));

@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,19 +32,19 @@ import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @SuppressWarnings("rawtypes")
 @RequestMapping("/api/v1/article")
 public class ArticleController {
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	private ArticleService articleService;
+	private final ArticleService articleService;
 	
 	String sep = File.separator;
 	String imgPath = new File("").getAbsolutePath() + sep + "src" + sep + "main" + sep + "resources" + sep + "static" + sep + "img" + sep + "post" + sep;

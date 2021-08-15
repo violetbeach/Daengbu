@@ -2,18 +2,19 @@ package com.violetbeach.daengbu.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.violetbeach.daengbu.dto.model.chat.ChatDto;
 import com.violetbeach.daengbu.dto.model.chat.RoomDto;
 import com.violetbeach.daengbu.repository.chat.ChatRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ChatService {
 
-	@Autowired
-	ChatRepository chatRepository;
+	private final ChatRepository chatRepository;
 	
 	public Long getByUserId(Long userId1, Long userId2) {
 		return chatRepository.getByUserId(userId1, userId2);

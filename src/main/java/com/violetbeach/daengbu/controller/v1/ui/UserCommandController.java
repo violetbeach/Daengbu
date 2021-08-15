@@ -2,9 +2,6 @@ package com.violetbeach.daengbu.controller.v1.ui;
 
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.violetbeach.daengbu.controller.v1.command.SignupFormCommand;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
-import com.violetbeach.daengbu.dto.response.Response;
 import com.violetbeach.daengbu.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class UserCommandController {
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
 	@GetMapping("/signup")
 	public ModelAndView initSignupForm() {

@@ -2,7 +2,6 @@ package com.violetbeach.daengbu.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,14 +13,15 @@ import com.violetbeach.daengbu.dto.model.article.WishlistDto;
 import com.violetbeach.daengbu.repository.article.ArticleRepository;
 import com.violetbeach.daengbu.repository.article.KindRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ArticleService {
 
-	@Autowired
-	ArticleRepository articleRepository;
+	private final ArticleRepository articleRepository;
 	
-	@Autowired
-	KindRepository kindRepository;
+	private final KindRepository kindRepository;
 	
 	public List<KindDto> getKinds() {
 		return kindRepository.getAll();

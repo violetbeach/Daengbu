@@ -2,7 +2,6 @@ package com.violetbeach.daengbu.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +11,17 @@ import com.violetbeach.daengbu.exception.DtoType;
 import com.violetbeach.daengbu.exception.ExceptionType;
 import com.violetbeach.daengbu.repository.user.UserRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     
     public UserDto findByEmail(String email) {
         Optional<UserDto> optUserDto = Optional.ofNullable(userRepository.findByEmail(email));

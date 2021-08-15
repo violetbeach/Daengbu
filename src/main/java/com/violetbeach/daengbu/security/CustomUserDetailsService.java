@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +16,15 @@ import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.repository.user.RoleRepository;
 import com.violetbeach.daengbu.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	private RoleRepository roleRepository;
+	private final RoleRepository roleRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

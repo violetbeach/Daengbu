@@ -3,7 +3,6 @@ package com.violetbeach.daengbu.controller.v1.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,15 +17,15 @@ import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.service.ChatService;
 import com.violetbeach.daengbu.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @Controller
 public class ChatCommandController {
 	
-	@Autowired
-	UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	ChatService chatService;
+	private final ChatService chatService;
 	
 	@GetMapping("/chat")
 	public ModelAndView initChatListForm(){

@@ -2,7 +2,6 @@ package com.violetbeach.daengbu.security;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,13 +18,15 @@ import com.violetbeach.daengbu.security.api.ApiJWTAuthenticationFilter;
 import com.violetbeach.daengbu.security.api.ApiJWTAuthorizationFilter;
 import com.violetbeach.daengbu.security.api.RefererFilter;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailService;
+    private final CustomUserDetailsService customUserDetailService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {

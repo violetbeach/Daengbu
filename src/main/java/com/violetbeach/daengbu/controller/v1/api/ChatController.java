@@ -1,7 +1,5 @@
 package com.violetbeach.daengbu.controller.v1.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,25 +10,23 @@ import com.violetbeach.daengbu.dto.model.chat.ChatDto;
 import com.violetbeach.daengbu.dto.model.chat.RoomDto;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
 import com.violetbeach.daengbu.dto.response.Response;
-import com.violetbeach.daengbu.dto.response.Response.Status;
 import com.violetbeach.daengbu.service.ChatService;
 import com.violetbeach.daengbu.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @SuppressWarnings("rawtypes")
 @RequestMapping("/api/v1/chat")
 public class ChatController {
 	
+	private final ChatService chatService;
 	
-	@Autowired
-	private ChatService chatService;
-	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
 	@ApiOperation(value = "메시지 생성", notes = "채팅방 id와 text를 이용하여 메시지를 생성합니다.")
 	@PostMapping

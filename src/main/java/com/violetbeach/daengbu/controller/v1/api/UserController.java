@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,19 +33,19 @@ import com.violetbeach.daengbu.service.UserService;
 import com.violetbeach.daengbu.util.ClientIpUtils;
 
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @SuppressWarnings("rawtypes")
 @RequestMapping("/api/v1/user")
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	private JavaMailSender javaMailSender;
+	private final JavaMailSender javaMailSender;
 	
 	@ApiOperation(value = "사용자 정보 조회", notes = "현재 로그인한 사용자의 정보를 불러옵니다.")
 	@GetMapping("/me")

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,14 +26,15 @@ import com.violetbeach.daengbu.service.ArticleService;
 import com.violetbeach.daengbu.service.UserService;
 import com.violetbeach.daengbu.util.DateUtils;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Controller
 public class ArticleCommandController {
 	
-	@Autowired
-	ArticleService articleService = new ArticleService();
+	private final ArticleService articleService;
 	
-	@Autowired
-	UserService userService = new UserService();
+	private final UserService userService;
 	
 	@GetMapping("/article/new")
 	public ModelAndView initPostForm() {

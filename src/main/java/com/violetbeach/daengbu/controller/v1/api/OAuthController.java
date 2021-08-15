@@ -12,7 +12,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -41,18 +40,18 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @SuppressWarnings("rawtypes")
 @RestController
 public class OAuthController {
 
-	@Autowired
-	UserService userService;
+	private final UserService userService;
 	
-	@Autowired
-	CustomUserDetailsService customUserDetailsService;
+	private final CustomUserDetailsService customUserDetailsService;
 	
 	@ApiOperation(value = "카카오 인가 코드 조회", notes = "카카오 로그인 화면을 호출하고, 카카오 인가 코드를 발급받습니다. 그리고 해당 인가 코드로 카카오 토큰을 발급받는 API로 redirect 합니다.")
 	@GetMapping("/oauth2/outhorization/kakao")

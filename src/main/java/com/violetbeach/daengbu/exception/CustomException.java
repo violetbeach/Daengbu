@@ -3,21 +3,18 @@ package com.violetbeach.daengbu.exception;
 import java.text.MessageFormat;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.violetbeach.daengbu.config.PropertiesConfiguration;
 
+import lombok.RequiredArgsConstructor;
+
 @SuppressWarnings("serial")
+@RequiredArgsConstructor
 @Component
 public class CustomException {
 
     private static PropertiesConfiguration propertiesConfig;
-
-    @Autowired
-    public CustomException(PropertiesConfiguration propertiesConfig) {
-        CustomException.propertiesConfig = propertiesConfig;
-    }
 
     public static RuntimeException throwException(String messageTemplate, String... args) {
         return new RuntimeException(format(messageTemplate, args));
