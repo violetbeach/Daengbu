@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -84,6 +86,7 @@ public class UserController {
 	
 	@ApiOperation(value = "계정 생성", notes = "입력 폼으로 계정을 생성합니다.")
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	private ModelAndView regist(@Valid @ModelAttribute("signupFormCommand") SignupFormCommand signupFormCommand, 
 			HttpServletRequest request, BindingResult bindingResult) {
 		if(bindingResult.hasErrors()) {
@@ -135,6 +138,7 @@ public class UserController {
 	
 	@ApiOperation(value = "비밀번호 수정", notes = "회원의 비밀번호를 수정합니다.")
 	@PutMapping("/change-password")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public Response changePassword(@RequestBody ChangePasswordCommand changePasswordCommand) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto=userService.findByEmail(auth.getName());

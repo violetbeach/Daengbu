@@ -1,9 +1,11 @@
 package com.violetbeach.daengbu.controller.v1.api;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.violetbeach.daengbu.dto.model.chat.ChatDto;
@@ -30,6 +32,7 @@ public class ChatController {
 	
 	@ApiOperation(value = "메시지 생성", notes = "채팅방 id와 text를 이용하여 메시지를 생성합니다.")
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public Response createMessage(Long roomId, String message) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto = userService.findByEmail(auth.getName());
@@ -43,6 +46,7 @@ public class ChatController {
 	
 	@ApiOperation(value = "방 생성", notes = "상대방 사용자 id로 채팅방을 생성합니다.")
 	@PostMapping("/room")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Response createRoom(Long authorId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto = userService.findByEmail(auth.getName());

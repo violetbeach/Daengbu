@@ -57,6 +57,7 @@ public class ArticleController {
 	
 	@ApiOperation(value = "게시글 생성", notes = "입력 폼으로 게시글을 생성합니다.")
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	private String post(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
 			@RequestPart List<MultipartFile> images, HttpServletResponse response) {
 		try {
@@ -111,6 +112,7 @@ public class ArticleController {
 	
 	@ApiOperation(value = "찜 생성", notes = "게시글 id로 해당 게시글에 찜을 생성합니다.")
 	@PostMapping("/wish")
+	@ResponseStatus(HttpStatus.CREATED)
 	public void addWishlist(Long articleId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto = userService.findByEmail(auth.getName());
@@ -122,6 +124,7 @@ public class ArticleController {
 	
 	@ApiOperation(value = "찜 삭제", notes = "게시글 id로 해당 게시글에 찜을 삭제합니다.")
 	@DeleteMapping("/wish")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delWishlist(Long articleId) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto = userService.findByEmail(auth.getName());
@@ -133,6 +136,7 @@ public class ArticleController {
 	
 	@ApiOperation(value = "게시글 수정", notes = "입력 폼으로 게시글을 수정합니다.")
 	@PutMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	private Response update(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
 			@RequestPart List<MultipartFile> images, HttpServletResponse response) {
 		try {

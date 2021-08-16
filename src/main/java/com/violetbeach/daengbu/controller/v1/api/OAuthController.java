@@ -15,12 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -146,6 +148,7 @@ public class OAuthController {
 	
 	@ApiOperation(value = "소셜 계정 생성", notes = "소셜 계정을 생성하고 JWT를 발급받습니다.")
 	@PostMapping("/oauth2/user")
+	@ResponseStatus(HttpStatus.CREATED)
 	public Response OAuthRegist(@RequestBody UserDto userDto, HttpServletRequest req, HttpServletResponse res) {
 		userDto.setPassword(UUID.randomUUID().toString());
 		userDto.setRegisterIp(ClientIpUtils.getClientIP(req));
