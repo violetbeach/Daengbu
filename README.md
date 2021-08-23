@@ -28,6 +28,7 @@
 - [ERD 설계](#-ERD-설계)
 - [기능](#-기능)
 - [License](#-license)
+- [배포](#-배포)
 
 <br/>
 
@@ -86,9 +87,13 @@
 
 - AWS EC2 (Ubuntu 18.04 LTS)
 - AWS RDS
+- AWS S3
 - AWS Route53
 - AWS Certification Manager
 - AWS ELB (ALB)
+- AWS CodeDeploy
+- Travis CI
+- Nginx
 
 `etc.`
 
@@ -103,9 +108,9 @@
 
 <br/>
 
-## 🧾 ERD 설계
+## ♻ 배포
 
-![erd2](https://user-images.githubusercontent.com/63458653/127174920-315f87c6-b9cd-43aa-b2bc-92508e4c2689.png)
+![modify-backend-process](https://user-images.githubusercontent.com/63458653/130416850-49b1cbde-6080-4941-8687-9e8dac42d486.png)
 
 <br/>
 
