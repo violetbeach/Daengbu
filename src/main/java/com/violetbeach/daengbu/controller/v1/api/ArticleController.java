@@ -46,12 +46,13 @@ public class ArticleController {
 	
 	private final ArticleService articleService;
 	
-	String sep = File.separator;
-	String imgPath = new File("").getAbsolutePath() + sep + "src" + sep + "main" + sep + "resources" + sep + "static" + sep + "img" + sep + "post" + sep;
+	private final String sep = File.separator;
+	private final String imgPath = new File("").getAbsolutePath() + sep + "src" + sep + "main" + sep + "resources" + sep + "static" + sep + "img" + sep + "post" + sep;
 
 	@ApiOperation(value = "견종 리스트 조회", notes = "서버에 등록된 견종 목록을 제공하는 API입니다.")
 	@GetMapping("/kind")
 	public List<KindDto> getKinds() {
+		log.info(imgPath);
 		return articleService.getKinds();
 	}
 	

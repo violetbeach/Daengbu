@@ -39,7 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     			"/resources/**", "/static/**", "/styles/**", "/js/**", "/img/**",
                 "/resources/static/**", "/js/**", "/img/**", "/font/**",
                 "/vendor/**", "/svg/**", "/model/**", "/oauth2/**",
-                "/", "/naming", "/login", "/signup", "/swagger-ui.html", "/swagger-ui/**");
+                "/", "/naming", "/login", "/signup", "/swagger-ui.html", "/swagger-ui/**",
+                "/profile");
     }
 
     @Override
