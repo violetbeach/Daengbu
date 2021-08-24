@@ -36,7 +36,7 @@
     	$('html, body').scrollTop(document.body.scrollHeight);
     	
     	$('#btn_exit').click(function(){
-    		confirmBox("방을 나가시겠습니까?", exitRoom)
+    		console.log(confirmBox("방을 나가시겠습니까?", exitRoom));
     	})
     })
     
@@ -107,16 +107,14 @@
     	$.ajax({
     		url : '/api/v1/chat',
     		type : 'delete',
-    		data : formData,
-    		cache : false,
-    		contentType : false,
-    		processData : false,
+    		data : { id : window.location.pathname.replace('/chat/', '') },
     		error : function(){
     		},
     		success : function(data){
     			location.href = '/chat';
     		}
     	})
+    	
     }
     
     setInterval(function(){

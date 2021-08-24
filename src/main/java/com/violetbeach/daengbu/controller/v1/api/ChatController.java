@@ -3,12 +3,14 @@ package com.violetbeach.daengbu.controller.v1.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.violetbeach.daengbu.dto.model.article.ArticleDto;
 import com.violetbeach.daengbu.dto.model.chat.ChatDto;
 import com.violetbeach.daengbu.dto.model.chat.RoomDto;
 import com.violetbeach.daengbu.dto.model.user.UserDto;
@@ -69,6 +71,15 @@ public class ChatController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		UserDto userDto = userService.findByEmail(auth.getName());
 		return Response.ok().setPayload(chatService.getTotalUnreadCount(userDto.getId()));
+	}
+	
+	@ApiOperation(value = "채팅방 나가기", notes = "채팅방 id와 사용자 id로 채팅방을 나갑니다.")
+	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void exitRoom(Long id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		chatService.delRoomUser(id, userDto.getId());
 	}
 		
 }

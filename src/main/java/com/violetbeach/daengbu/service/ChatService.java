@@ -55,4 +55,9 @@ public class ChatService {
 	public Integer getTotalUnreadCount(Long user_id) {
 		return chatRepository.getTotalUnreadCount(user_id);
 	}
+	
+	public void delRoomUser(Long roomId, Long userId) {
+		chatRepository.delRoomUser(roomId, userId);
+	}
+	
 }

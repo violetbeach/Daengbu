@@ -20,5 +20,6 @@ public interface ChatRepository {
 	void updateIsRead(Long roomId, Long userId);
 	List<ChatDto> getByRoomId(Long id);
 	Integer getTotalUnreadCount(Long user_id);
+	void delRoomUser(Long roomId, Long userId);
 	
 }

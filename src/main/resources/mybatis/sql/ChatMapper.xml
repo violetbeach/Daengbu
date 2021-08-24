@@ -55,4 +55,8 @@
     		AND NOT user_id = #{user_id} AND is_read = 0;
 	</select>
 	
+	<delete id="delRoomUser" parameterType="Long">
+		DELETE FROM room_user WHERE room_id = #{roomId} AND user_id = #{userId};
+	</delete>
+	
 </mapper>
