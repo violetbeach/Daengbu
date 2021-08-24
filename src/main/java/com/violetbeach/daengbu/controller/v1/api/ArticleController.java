@@ -138,7 +138,7 @@ public class ArticleController {
 	@ApiOperation(value = "게시글 수정", notes = "입력 폼으로 게시글을 수정합니다.")
 	@PutMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	private Response update(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
+	private void update(@ModelAttribute("postFormCommand") PostFormCommand postFormCommand, 
 			@RequestPart List<MultipartFile> images, HttpServletResponse response) {
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -179,12 +179,11 @@ public class ArticleController {
 					count++;
 				}
 				
-				return Response.ok().setMetadata("/article/"+articleDto.getId());
 			}
 			
 		} catch(Exception exception) {	
+			
 		}
-			return Response.unauthorized();
 	}	
 		
 }
