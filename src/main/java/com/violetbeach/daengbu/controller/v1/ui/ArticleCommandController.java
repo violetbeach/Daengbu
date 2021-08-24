@@ -90,16 +90,20 @@ public class ArticleCommandController {
 			int p = Integer.parseInt(page);
 			if(articleList.size()<p*9) {
 				articleList=articleList.subList((p*9)-9, (p*9)-9+articleList.size()%9);
+				articleImageList=articleImageList.subList((p*9)-9, (p*9)-9+articleImageList.size()%9);
 			}
 			else {
 				articleList=articleList.subList((p*9)-9, p*9);
+				articleImageList=articleImageList.subList((p*9)-9, p*9);
 			}
 		} catch(NumberFormatException e) {
 			if(articleList.size()<9) {
 				articleList=articleList.subList(0, articleList.size());
+				articleImageList=articleImageList.subList(0, articleImageList.size());
 			}
 			else {
 				articleList=articleList.subList(0, 9);
+				articleImageList=articleImageList.subList(0, 9);
 			}
 		}
 		List<KindDto> kindListDto = articleService.getKinds();
