@@ -50,7 +50,7 @@
     	<span class="content_title" th:text="${board_name}"></span>
     	<span style="font-size:28px;color:#b2b2b2;line-height:1.14;margin:0px;">&nbsp;|&nbsp;</span>
     	<span style="font-size:20px;line-height:1.14;margin:0px;">총&nbsp;</span>
-    	<span th:text="${maxNum}" style="font-size:20px;color:#ffa000;line-height:1.14;margin:0px;"></span>
+    	<span id="article_count" th:text="${maxNum}" style="font-size:20px;color:#ffa000;line-height:1.14;margin:0px;"></span>
     	<span style="font-size:20px;line-height:1.14;margin:0px;">건</span>
     	<select class="select_order">
     		<option selected>등록일순</option>
@@ -77,11 +77,11 @@
     
     <div class="select_page_container">
    		<div class="select_page_numberlist">
-   			<img th:src="@{/img/ic_leftarrow_red.png}" class="boardlist_arrow" />
+   			<img id="left_page" onclick="left_page()" th:src="@{/img/ic_leftarrow_red.png}" class="boardlist_arrow" />
    			<th:block th:each="num : ${#numbers.sequence(1, ((maxNum-1)/9)+1)}">
    				<span th:text="${num}"></span>
    			</th:block>
-   			<img th:src="@{/img/ic_rightarrow_red.png}" class="boardlist_arrow"/>
+   			<img id="right_page" onclick="right_page()" th:src="@{/img/ic_rightarrow_red.png}" class="boardlist_arrow"/>
    		</div>
     </div>
     </div>
@@ -133,6 +133,15 @@
         	    		$(item).attr('class', 'selected_page')
         	    	}
         	    })
+        	    
+        	    if($('.selected_page').html()==1){
+        	    	$('#left_page').css('pointer-events', 'none');
+        	    }
+        		
+        		if($('.selected_page').html()>=Math.floor(($('#article_count').html()-1)/9) + 1){
+        			$('#right_page').css('pointer-events', 'none');
+        		}
+        		
         	}
     	});
     })
@@ -154,9 +163,86 @@
         		$('.select_page_numberlist span').each(function(index, item){
         	    	if(index==0) $(item).attr('class', 'selected_page');
         	    })
+        	    
+        	    if($('.selected_page').html()==1){
+        	    	$('#left_page').css('pointer-events', 'none');
+        	    }
+        		
+        		if($('.selected_page').html()>=Math.floor(($('#article_count').html()-1)/9) + 1){
+        			$('#right_page').css('pointer-events', 'none');
+        		}
+        		
         	}
     	});
     })
+    
+    if($('.selected_page').html()==1){
+    	$('#left_page').css('pointer-events', 'none');
+    }
+    
+    if($('.selected_page').html()==Math.floor(($('#article_count').html()-1)/9) + 1){
+		$('#right_page').css('pointer-events', 'none');
+	}
+    
+    function left_page() {
+    	var page = parseInt($('.selected_page').html()) - 1;
+    	$.ajax ({
+        	url : "/search?location1=" + last_search_location1 +
+    		"&kindId=" + last_search_kind +
+    		"&gender=" + last_search_gender +
+    		"&age="+ last_search_age +
+    		"&page="+ page,
+        	type : 'post',
+        	cache : false,
+        	success : function (html) {
+        		$("#index_fragment").replaceWith(html);
+        		$('.select_page_numberlist span').each(function(index, item){
+        	    	if(index + 1 == page) {
+        	    		$(item).attr('class', 'selected_page')
+        	    	}
+        	    })
+        	    
+        	    if($('.selected_page').html()==1){
+        	    	$('#left_page').css('pointer-events', 'none');
+        	    }
+        		
+        		if($('.selected_page').html()==Math.floor(($('#article_count').html()-1)/9) + 1){
+        			$('#right_page').css('pointer-events', 'none');
+        		}
+        		
+        	}
+    	});
+    }
+    
+    function right_page() {
+    	var page = parseInt($('.selected_page').html()) + 1;
+    	$.ajax ({
+        	url : "/search?location1=" + last_search_location1 +
+    		"&kindId=" + last_search_kind +
+    		"&gender=" + last_search_gender +
+    		"&age="+ last_search_age +
+    		"&page="+ page,
+        	type : 'post',
+        	cache : false,
+        	success : function (html) {
+        		$("#index_fragment").replaceWith(html);
+        		$('.select_page_numberlist span').each(function(index, item){
+        	    	if(index + 1 == page) {
+        	    		$(item).attr('class', 'selected_page')
+        	    	}
+        	    })
+        	    
+        	    if($('.selected_page').html()==1){
+        	    	$('#left_page').css('pointer-events', 'none');
+        	    }
+        		
+        		if($('.selected_page').html()==Math.floor(($('#article_count').html()-1)/9) + 1){
+        			$('#right_page').css('pointer-events', 'none');
+        		}
+        		
+        	}
+    	});
+    }
     	
     </script>
     

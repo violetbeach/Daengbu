@@ -222,7 +222,6 @@ select::-ms-expand {
     width: 40px;
     height: 40px;
     margin: 0;
-    cursor: default;
     margin-bottom: 10px;
 }
 .select_page_container .select_page_numberlist {
