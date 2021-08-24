@@ -386,6 +386,7 @@ div#signup_container .btn_signup {
     height: 40px;
 }
 #side_profile .profile_btn {
+	position: relative;
     font-size: 13px;
     margin: 0 32px;
     vertical-align: top;
@@ -414,6 +415,21 @@ div#signup_container .btn_signup {
 #profile_bottom a:hover {
     color: #000000;
     text-decoration: none;
+}
+.profile_btn .alert {
+	position: absolute;
+	display: none;
+	padding: 0px;
+	text-align: center;
+	width: 24px;
+	height: 16px;
+	bottom: 4px;
+	font-size: 9px;
+	line-height: 1.5;
+	font-weight: 700;
+	border-radius: 8px;
+	background-color: var(--dark-pink);
+	color: #ffffff;
 }
 #btn_post {
     width: 291px;

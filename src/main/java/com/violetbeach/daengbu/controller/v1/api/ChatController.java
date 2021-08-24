@@ -3,6 +3,7 @@ package com.violetbeach.daengbu.controller.v1.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -60,6 +61,14 @@ public class ChatController {
 			chatService.addUser(roomDto.getId(), authorId);
 			return Response.ok().setPayload("/chat/" + roomDto.getId());
 		}
+	}
+	
+	@ApiOperation(value = "메시지 알림 수 조회", notes = "사용자 id로 안 읽은 메시지 수를 조회합니다.")
+	@GetMapping("/alert-count")
+	public Response getAlertCount() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDto userDto = userService.findByEmail(auth.getName());
+		return Response.ok().setPayload(chatService.getTotalUnreadCount(userDto.getId()));
 	}
 		
 }

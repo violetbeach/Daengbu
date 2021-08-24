@@ -25,4 +25,17 @@ $(document).ready(function(){
 		});
 	});
 	
+	// 메시지 알람
+	$.ajax({
+			async: 'true',
+			url: '/api/v1/chat/alert-count',
+			type : 'get',
+			success : function(response, status, xhr){
+				if(response.payload!=0){
+					$('.profile_btn .alert').html(response.payload);
+					$('.profile_btn .alert').css('display', 'block');
+				}
+			}
+	});
+	
 });

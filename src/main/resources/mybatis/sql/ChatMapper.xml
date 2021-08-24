@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="getUnreadMessageCount" parameterType="Long" resultType="Integer">
-		SELECT COUNT(*) FROM chat WHERE is_read = 0 AND user_id = #{id};
+		SELECT COUNT(*) FROM chat WHERE is_read = 0 AND room_id = #{roomId} AND user_id = #{userId};
 	</select>
 	
 	<update id="updateIsRead" parameterType="Long">
@@ -47,6 +47,12 @@
 	
 	<select id="getByRoomId" parameterType="Long" resultType="com.violetbeach.daengbu.dto.model.chat.ChatDto">
 		SELECT * FROM chat WHERE room_id = #{roomId};
+	</select>
+	
+	<select id="getTotalUnreadCount" parameterType="Long" resultType="Integer">
+		SELECT count(*) FROM chat WHERE room_id IN (
+			SELECT room_id FROM room_user WHERE user_id = #{user_id})
+    		AND NOT user_id = #{user_id} AND is_read = 0;
 	</select>
 	
 </mapper>

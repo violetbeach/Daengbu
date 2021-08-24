@@ -16,8 +16,9 @@ public interface ChatRepository {
 	void addMessage(ChatDto chatDto);
 	List<ChatDto> getListByUserId(Long userId);
 	Long getOtherUserByUserId(Long roomId, Long userId);
-	Integer getUnreadMessageCount(Long id);
+	Integer getUnreadMessageCount(Long roomId, Long userId);
 	void updateIsRead(Long roomId, Long userId);
 	List<ChatDto> getByRoomId(Long id);
+	Integer getTotalUnreadCount(Long user_id);
 	
 }

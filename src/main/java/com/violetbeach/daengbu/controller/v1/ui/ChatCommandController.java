@@ -38,7 +38,7 @@ public class ChatCommandController {
 		for(ChatDto chatDto : chatListDto) {
 			Long other = chatService.getOtherUserByUserId(chatDto.getRoomId(), userDto.getId());
 			otherUserList.add(userService.getUsernameById(other));
-			unreadMessageCountList.add(chatService.getUnreadMessageCount(other));
+			unreadMessageCountList.add(chatService.getUnreadMessageCount(chatDto.getRoomId(), other));
 		}
 		modelAndView.addObject("chatListDto", chatListDto);
 		modelAndView.addObject("otherUserList", otherUserList);

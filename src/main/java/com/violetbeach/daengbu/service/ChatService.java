@@ -40,8 +40,8 @@ public class ChatService {
 		return chatRepository.getOtherUserByUserId(roomId, userId);
 	}
 	
-	public Integer getUnreadMessageCount(Long id) {
-		return chatRepository.getUnreadMessageCount(id);
+	public Integer getUnreadMessageCount(Long roomId, Long userId) {
+		return chatRepository.getUnreadMessageCount(roomId, userId);
 	}
 	
 	public void updateIsRead(Long roomId, Long userId) {
@@ -52,4 +52,7 @@ public class ChatService {
 		return chatRepository.getByRoomId(id);
 	}
 	
+	public Integer getTotalUnreadCount(Long user_id) {
+		return chatRepository.getTotalUnreadCount(user_id);
+	}
 }
