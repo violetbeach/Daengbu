@@ -108,6 +108,12 @@
 
 <br/>
 
+## 🧾 ERD 설계
+
+![erd2](https://user-images.githubusercontent.com/63458653/127174920-315f87c6-b9cd-43aa-b2bc-92508e4c2689.png)
+
+<br/>
+
 ## ♻ 배포
 
 ![modify-backend-process](https://user-images.githubusercontent.com/63458653/130416850-49b1cbde-6080-4941-8687-9e8dac42d486.png)
